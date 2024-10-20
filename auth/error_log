@@ -1,0 +1,25 @@
+[16-Jun-2024 20:16:24 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email_hash' in 'where clause' in /home2/lookshan/public_html/auth/register.php:12
+Stack trace:
+#0 /home2/lookshan/public_html/auth/register.php(12): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/auth/register.php on line 12
+[07-Jul-2024 09:30:38 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email_hash' in 'where clause' in /home2/lookshan/public_html/auth/register.php:12
+Stack trace:
+#0 /home2/lookshan/public_html/auth/register.php(12): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/auth/register.php on line 12
+[07-Jul-2024 09:30:41 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email_hash' in 'where clause' in /home2/lookshan/public_html/auth/register.php:12
+Stack trace:
+#0 /home2/lookshan/public_html/auth/register.php(12): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/auth/register.php on line 12
+[07-Jul-2024 09:35:48 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email_hash' in 'where clause' in /home2/lookshan/public_html/auth/register.php:21
+Stack trace:
+#0 /home2/lookshan/public_html/auth/register.php(21): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/auth/register.php on line 21
+[07-Jul-2024 19:40:59 Europe/London] PHP Warning:  Undefined variable $istwofa in /home2/lookshan/public_html/auth/login.php on line 144
+[07-Jul-2024 19:44:06 Europe/London] PHP Warning:  Undefined variable $istwofa in /home2/lookshan/public_html/auth/login.php on line 143
+[07-Jul-2024 19:44:13 Europe/London] PHP Warning:  Undefined variable $istwofa in /home2/lookshan/public_html/auth/login.php on line 143
+[07-Jul-2024 19:45:34 Europe/London] PHP Warning:  Undefined variable $istwofa in /home2/lookshan/public_html/auth/login.php on line 143
+[07-Jul-2024 19:46:40 Europe/London] PHP Warning:  Undefined variable $istwofa in /home2/lookshan/public_html/auth/login.php on line 116

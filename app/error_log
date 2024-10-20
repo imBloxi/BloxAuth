@@ -1,0 +1,881 @@
+[16-Jun-2024 20:20:25 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[16-Jun-2024 20:20:25 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[17-Jun-2024 08:44:05 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[17-Jun-2024 08:44:05 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 09:38:37 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 09:38:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 09:38:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 28
+[07-Jul-2024 09:39:48 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 47
+[07-Jul-2024 09:43:11 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 09:43:11 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 09:43:11 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 28
+[07-Jul-2024 10:08:42 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 10:08:42 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 10:08:42 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 28
+[07-Jul-2024 11:18:57 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 11:18:57 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 11:18:57 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 28
+[07-Jul-2024 12:07:50 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 12:07:50 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 12:16:35 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 12:16:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 12:19:41 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 12:19:41 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 12:19:45 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 12:19:45 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 12:41:35 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 12:41:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 19:44:11 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 19:44:11 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 19:48:22 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 19:48:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 25
+[07-Jul-2024 19:54:56 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 75
+[07-Jul-2024 19:54:56 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 75
+[07-Jul-2024 19:55:16 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 77
+[07-Jul-2024 19:55:16 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 77
+[07-Jul-2024 19:55:28 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 77
+[07-Jul-2024 19:55:28 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 77
+[07-Jul-2024 19:55:53 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 77
+[07-Jul-2024 19:55:53 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 77
+[07-Jul-2024 19:56:27 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:27 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:56 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:56 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:56 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:56 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:59 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:59 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:56:59 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:56:59 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:01 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:01 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:01 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:01 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:34 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:34 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:57:34 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:57:34 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:58:04 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:58:04 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 78
+[07-Jul-2024 19:58:04 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:58:04 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 19:58:31 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 85
+[07-Jul-2024 19:58:31 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 85
+[07-Jul-2024 19:58:53 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 86
+[07-Jul-2024 19:58:53 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 86
+[07-Jul-2024 19:59:12 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 86
+[07-Jul-2024 19:59:12 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 86
+[07-Jul-2024 19:59:53 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 86
+[07-Jul-2024 19:59:53 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 86
+[07-Jul-2024 20:00:06 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 20:00:06 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 20:00:33 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 20:00:33 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 84
+[07-Jul-2024 20:01:20 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:01:20 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:02:52 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:02:52 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:03:17 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:03:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:04:05 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:04:05 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:04:15 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:04:15 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:04:16 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:04:16 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:04:20 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:04:20 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:05:57 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:05:57 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:08:24 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:08:24 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:08:27 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:08:27 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:08:45 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:08:45 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:08:55 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:08:55 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:09:01 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:09:01 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:09:10 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:09:10 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:09:18 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:09:18 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:09:57 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:09:57 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:10:15 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:10:15 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:11:40 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:11:40 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:18:20 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:18:20 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:18:23 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:18:23 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:19:15 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:19:15 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:40:23 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[07-Jul-2024 20:40:23 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:06:28 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:06:28 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:06:55 Europe/London] PHP Warning:  Undefined array key "license_key" in /home2/lookshan/public_html/app/license.php on line 126
+[08-Jul-2024 07:06:55 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 126
+[08-Jul-2024 07:06:55 Europe/London] PHP Warning:  Undefined array key "whitelist_id" in /home2/lookshan/public_html/app/license.php on line 127
+[08-Jul-2024 07:06:55 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 127
+[08-Jul-2024 07:09:23 Europe/London] PHP Warning:  Undefined array key "license_key" in /home2/lookshan/public_html/app/license.php on line 161
+[08-Jul-2024 07:09:23 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 161
+[08-Jul-2024 07:09:23 Europe/London] PHP Warning:  Undefined array key "whitelist_id" in /home2/lookshan/public_html/app/license.php on line 162
+[08-Jul-2024 07:09:23 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 162
+[08-Jul-2024 07:09:23 Europe/London] PHP Warning:  Undefined array key "whitelist_type" in /home2/lookshan/public_html/app/license.php on line 163
+[08-Jul-2024 07:09:23 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 163
+[08-Jul-2024 07:09:23 Europe/London] PHP Warning:  Undefined array key "whitelist_id" in /home2/lookshan/public_html/app/license.php on line 168
+[08-Jul-2024 07:09:23 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 168
+[08-Jul-2024 07:09:23 Europe/London] PHP Warning:  Undefined array key "whitelist_type" in /home2/lookshan/public_html/app/license.php on line 170
+[08-Jul-2024 07:09:23 Europe/London] PHP Warning:  Undefined array key "whitelist_type" in /home2/lookshan/public_html/app/license.php on line 171
+[08-Jul-2024 07:09:23 Europe/London] PHP Warning:  Undefined array key "whitelist_type" in /home2/lookshan/public_html/app/license.php on line 172
+[08-Jul-2024 07:09:23 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:52
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(52): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(180): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 52
+[08-Jul-2024 07:09:27 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'whitelist_id' in 'field list' in /home2/lookshan/public_html/app/license.php:42
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(42): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 42
+[08-Jul-2024 07:09:31 Europe/London] PHP Warning:  Undefined array key "license_key" in /home2/lookshan/public_html/app/license.php on line 161
+[08-Jul-2024 07:09:31 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 161
+[08-Jul-2024 07:09:31 Europe/London] PHP Warning:  Undefined array key "whitelist_id" in /home2/lookshan/public_html/app/license.php on line 162
+[08-Jul-2024 07:09:31 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 162
+[08-Jul-2024 07:09:31 Europe/London] PHP Warning:  Undefined array key "whitelist_type" in /home2/lookshan/public_html/app/license.php on line 163
+[08-Jul-2024 07:09:31 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 163
+[08-Jul-2024 07:09:31 Europe/London] PHP Warning:  Undefined array key "whitelist_id" in /home2/lookshan/public_html/app/license.php on line 168
+[08-Jul-2024 07:09:31 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 168
+[08-Jul-2024 07:09:31 Europe/London] PHP Warning:  Undefined array key "whitelist_type" in /home2/lookshan/public_html/app/license.php on line 170
+[08-Jul-2024 07:09:31 Europe/London] PHP Warning:  Undefined array key "whitelist_type" in /home2/lookshan/public_html/app/license.php on line 171
+[08-Jul-2024 07:09:31 Europe/London] PHP Warning:  Undefined array key "whitelist_type" in /home2/lookshan/public_html/app/license.php on line 172
+[08-Jul-2024 07:09:31 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:52
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(52): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(180): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 52
+[08-Jul-2024 07:09:44 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'license_key' in 'field list' in /home2/lookshan/public_html/app/license.php:23
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(23): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 23
+[08-Jul-2024 07:11:21 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'license_key' in 'field list' in /home2/lookshan/public_html/app/license.php:23
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(23): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 23
+[08-Jul-2024 07:11:24 Europe/London] PHP Warning:  Undefined array key "license_key" in /home2/lookshan/public_html/app/license.php on line 161
+[08-Jul-2024 07:11:24 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 161
+[08-Jul-2024 07:11:24 Europe/London] PHP Warning:  Undefined array key "whitelist_id" in /home2/lookshan/public_html/app/license.php on line 162
+[08-Jul-2024 07:11:24 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 162
+[08-Jul-2024 07:11:24 Europe/London] PHP Warning:  Undefined array key "whitelist_id" in /home2/lookshan/public_html/app/license.php on line 168
+[08-Jul-2024 07:11:24 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 168
+[08-Jul-2024 07:11:24 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:52
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(52): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(180): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 52
+[08-Jul-2024 07:11:25 Europe/London] PHP Warning:  Undefined array key "license_key" in /home2/lookshan/public_html/app/license.php on line 161
+[08-Jul-2024 07:11:25 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 161
+[08-Jul-2024 07:11:25 Europe/London] PHP Warning:  Undefined array key "whitelist_id" in /home2/lookshan/public_html/app/license.php on line 162
+[08-Jul-2024 07:11:25 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 162
+[08-Jul-2024 07:11:25 Europe/London] PHP Warning:  Undefined array key "whitelist_id" in /home2/lookshan/public_html/app/license.php on line 168
+[08-Jul-2024 07:11:25 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 168
+[08-Jul-2024 07:11:25 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:52
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(52): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(180): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 52
+[08-Jul-2024 07:11:31 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'license_key' in 'field list' in /home2/lookshan/public_html/app/license.php:23
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(23): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 23
+[08-Jul-2024 07:12:28 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'license_key' in 'field list' in /home2/lookshan/public_html/app/license.php:23
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(23): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 23
+[08-Jul-2024 07:15:37 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'lookshan_roblox_licensing.notifications' doesn't exist in /home2/lookshan/public_html/app/license.php:28
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(28): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 28
+[08-Jul-2024 07:19:28 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'lookshan_roblox_licensing.notifications' doesn't exist in /home2/lookshan/public_html/app/license.php:28
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(28): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 28
+[08-Jul-2024 07:21:36 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'lookshan_roblox_licensing.notifications' doesn't exist in /home2/lookshan/public_html/app/license.php:28
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(28): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 28
+[08-Jul-2024 07:21:39 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 139
+[08-Jul-2024 07:21:39 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 139
+[08-Jul-2024 07:21:39 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/license.php on line 142
+[08-Jul-2024 07:21:39 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/license.php on line 142
+[08-Jul-2024 07:21:39 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 142
+[08-Jul-2024 07:21:39 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:52
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(52): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(225): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 52
+[08-Jul-2024 07:21:59 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 142
+[08-Jul-2024 07:21:59 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 142
+[08-Jul-2024 07:21:59 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/license.php on line 145
+[08-Jul-2024 07:21:59 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/license.php on line 145
+[08-Jul-2024 07:21:59 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 145
+[08-Jul-2024 07:21:59 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:52
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(52): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(228): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 52
+[08-Jul-2024 07:22:34 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function redirect_if_not_logged_in() in /home2/lookshan/public_html/app/license.php:10
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 10
+[08-Jul-2024 07:22:43 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function redirect_if_not_logged_in() in /home2/lookshan/public_html/app/license.php:10
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 10
+[08-Jul-2024 07:22:44 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function redirect_if_not_logged_in() in /home2/lookshan/public_html/app/license.php:10
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 10
+[08-Jul-2024 07:22:44 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function redirect_if_not_logged_in() in /home2/lookshan/public_html/app/license.php:10
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 10
+[08-Jul-2024 07:22:45 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function redirect_if_not_logged_in() in /home2/lookshan/public_html/app/license.php:10
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 10
+[08-Jul-2024 07:22:45 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function redirect_if_not_logged_in() in /home2/lookshan/public_html/app/license.php:10
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 10
+[08-Jul-2024 07:22:45 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function redirect_if_not_logged_in() in /home2/lookshan/public_html/app/license.php:10
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 10
+[08-Jul-2024 07:28:50 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 73
+[08-Jul-2024 07:28:50 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 73
+[08-Jul-2024 07:28:50 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 76
+[08-Jul-2024 07:28:50 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 76
+[08-Jul-2024 07:28:50 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[08-Jul-2024 07:29:11 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[08-Jul-2024 07:29:11 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[08-Jul-2024 07:29:11 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[08-Jul-2024 07:29:11 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[08-Jul-2024 07:29:11 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[08-Jul-2024 07:31:27 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:31:27 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:31:27 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:63
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(63): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(238): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 63
+[08-Jul-2024 07:34:57 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:34:57 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:34:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:34:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:35:34 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:35:34 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:35:35 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[08-Jul-2024 07:35:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[08-Jul-2024 07:35:35 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[08-Jul-2024 07:35:35 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[08-Jul-2024 07:35:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[08-Jul-2024 07:35:37 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:35:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:35:47 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:35:47 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:35:47 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:63
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(63): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(241): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 63
+[08-Jul-2024 07:36:33 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:36:33 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:36:34 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:36:34 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:36:34 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:63
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(63): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(241): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 63
+[08-Jul-2024 07:37:02 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:37:02 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:37:02 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:63
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(63): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(241): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 63
+[08-Jul-2024 07:37:03 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:37:03 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:37:03 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:63
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(63): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(241): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 63
+[08-Jul-2024 07:37:06 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:37:06 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 152
+[08-Jul-2024 07:37:06 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'order clause' in /home2/lookshan/public_html/app/license.php:63
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(63): PDO->prepare()
+#1 /home2/lookshan/public_html/app/license.php(241): getUsageLogs()
+#2 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 63
+[08-Jul-2024 07:37:13 Europe/London] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'lookshan_roblox_licensing.notifications' doesn't exist in /home2/lookshan/public_html/app/license.php:39
+Stack trace:
+#0 /home2/lookshan/public_html/app/license.php(39): PDO->prepare()
+#1 {main}
+  thrown in /home2/lookshan/public_html/app/license.php on line 39
+[08-Jul-2024 07:39:59 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:39:59 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:40:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:40:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:41:21 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:41:21 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:41:25 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:41:25 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:41:36 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:41:36 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:41:48 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:41:48 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:44:22 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:44:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:44:25 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:44:25 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 173
+[08-Jul-2024 07:44:50 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 259
+[08-Jul-2024 07:44:50 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 259
+[08-Jul-2024 07:44:52 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 259
+[08-Jul-2024 07:44:52 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 259
+[08-Jul-2024 07:47:15 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:15 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:16 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:16 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:16 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:16 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:17 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:17 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:19 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:19 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:26 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:47:26 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 194
+[08-Jul-2024 07:51:22 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:51:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:51:26 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:51:26 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:52:03 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:52:03 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:52:06 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:52:06 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:52:06 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:52:06 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:52:07 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:52:07 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:10 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:10 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:12 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:12 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:12 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:12 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:12 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:12 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:12 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:12 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:34 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:56:34 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 07:58:47 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 07:58:47 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 07:58:55 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 07:58:55 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 38
+[08-Jul-2024 08:04:40 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:04:40 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:06:56 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:06:56 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:07:51 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:07:51 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:11:33 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:11:33 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:11:36 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:11:36 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:11:46 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 08:11:46 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 198
+[08-Jul-2024 08:11:55 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:11:55 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:12:07 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:12:07 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:40:52 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 08:40:52 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 08:41:13 Europe/London] PHP Deprecated:  urlencode(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 15
+[08-Jul-2024 08:41:56 Europe/London] PHP Warning:  Undefined variable $logs in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:41:56 Europe/London] PHP Warning:  foreach() argument must be of type array|object, null given in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:42:15 Europe/London] PHP Warning:  Undefined variable $logs in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:42:15 Europe/London] PHP Warning:  foreach() argument must be of type array|object, null given in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:42:16 Europe/London] PHP Warning:  Undefined variable $logs in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:42:16 Europe/London] PHP Warning:  foreach() argument must be of type array|object, null given in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:42:55 Europe/London] PHP Warning:  Undefined variable $logs in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:42:55 Europe/London] PHP Warning:  foreach() argument must be of type array|object, null given in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:43:06 Europe/London] PHP Warning:  Undefined variable $logs in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:43:06 Europe/London] PHP Warning:  foreach() argument must be of type array|object, null given in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:43:07 Europe/London] PHP Warning:  Undefined variable $logs in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:43:07 Europe/London] PHP Warning:  foreach() argument must be of type array|object, null given in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:43:08 Europe/London] PHP Warning:  Undefined variable $logs in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:43:08 Europe/London] PHP Warning:  foreach() argument must be of type array|object, null given in /home2/lookshan/public_html/app/staff.php on line 53
+[08-Jul-2024 08:48:29 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:48:29 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:53:45 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:53:45 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 08:53:48 Europe/London] PHP Deprecated:  urlencode(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 15
+[08-Jul-2024 10:06:52 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 10:06:52 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 33
+[08-Jul-2024 11:45:57 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 11:45:57 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 11:46:39 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 11:46:39 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 11:50:16 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 11:50:16 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 11:52:34 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[08-Jul-2024 11:52:34 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[08-Jul-2024 11:52:34 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[08-Jul-2024 11:52:34 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[08-Jul-2024 11:52:34 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[08-Jul-2024 15:24:44 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:24:44 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:24:44 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[08-Jul-2024 15:25:32 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:25:32 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:25:56 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 15:25:56 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 15:26:05 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 15:26:05 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 15:26:35 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:26:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:26:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[08-Jul-2024 15:26:38 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 59
+[08-Jul-2024 15:27:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:27:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:29:27 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:29:27 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:30:35 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 15:30:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 16:17:52 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 16:17:52 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 16:17:52 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[08-Jul-2024 17:19:09 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 17:19:09 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[08-Jul-2024 17:19:09 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[08-Jul-2024 17:19:13 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 17:19:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 17:19:16 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[08-Jul-2024 17:19:16 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 08:31:38 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 08:31:38 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 12:53:37 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 12:53:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 12:53:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 12:54:09 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 12:54:09 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 12:54:09 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 12:54:09 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 12:54:09 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 12:54:13 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 12:54:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 12:54:20 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 12:54:20 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 12:54:22 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 12:54:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 12:54:25 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 12:54:25 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 12:54:25 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 12:54:25 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 12:54:25 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 12:54:26 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 12:54:26 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 12:54:26 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 12:54:26 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 12:54:26 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 13:00:12 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:00:12 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:00:12 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 13:01:04 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 13:01:04 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 13:01:04 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 13:01:04 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 13:01:04 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 13:01:08 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 13:01:08 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 13:01:46 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:01:46 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:01:46 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 13:01:51 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:01:51 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:01:51 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 13:01:52 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 59
+[09-Jul-2024 13:02:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:02:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:02:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 13:04:09 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 13:04:09 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 13:04:09 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 13:04:09 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 13:04:09 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 13:38:22 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:38:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:38:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 13:38:22 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:38:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:38:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 13:41:17 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:41:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 13:55:39 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function is_logged_in() in /home2/lookshan/public_html/app/review_applications.php:7
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/review_applications.php on line 7
+[09-Jul-2024 13:55:41 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function is_logged_in() in /home2/lookshan/public_html/app/review_applications.php:7
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/review_applications.php on line 7
+[09-Jul-2024 14:00:24 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:00:24 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:00:35 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:00:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:01:01 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function is_logged_in() in /home2/lookshan/public_html/app/process_application.php:6
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/process_application.php on line 6
+[09-Jul-2024 14:04:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:04:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:04:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:05:02 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:02 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:02 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:02 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:02 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:05 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:05 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:05 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:05 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:05 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:07 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:07 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:07 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:07 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:07 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:12 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:12 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:12 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:12 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:12 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:15 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:15 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:15 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:15 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:15 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:21 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:21 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:21 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:21 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:21 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:25 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:05:25 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:05:59 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:59 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:05:59 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:59 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:05:59 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:07:06 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:07:06 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:07:06 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:07:09 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:07:09 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:07:11 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:07:11 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:07:11 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:07:11 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:07:11 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:08:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 59
+[09-Jul-2024 14:08:22 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:08:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:08:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:08:35 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:08:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:08:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:08:39 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:08:39 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:08:39 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:08:47 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:08:47 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:10:15 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:10:15 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:10:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 104
+[09-Jul-2024 14:11:28 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:11:28 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:11:29 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 89
+[09-Jul-2024 14:11:29 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 104
+[09-Jul-2024 14:11:52 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:11:52 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:11:54 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:11:54 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:11:54 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:11:56 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:11:56 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:11:56 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:11:56 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:11:56 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:11:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:11:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:12:31 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 92
+[09-Jul-2024 14:14:35 Europe/London] PHP Warning:  require(../includes/passkeys_sdk.php): Failed to open stream: No such file or directory in /home2/lookshan/public_html/app/settings.php on line 5
+[09-Jul-2024 14:14:35 Europe/London] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/passkeys_sdk.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home2/lookshan/public_html/app/settings.php:5
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/settings.php on line 5
+[09-Jul-2024 14:14:37 Europe/London] PHP Warning:  require(../includes/passkeys_sdk.php): Failed to open stream: No such file or directory in /home2/lookshan/public_html/app/settings.php on line 5
+[09-Jul-2024 14:14:37 Europe/London] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/passkeys_sdk.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home2/lookshan/public_html/app/settings.php:5
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/settings.php on line 5
+[09-Jul-2024 14:15:29 Europe/London] PHP Warning:  require(../includes/passkeys_sdk.php): Failed to open stream: No such file or directory in /home2/lookshan/public_html/app/settings.php on line 5
+[09-Jul-2024 14:15:29 Europe/London] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/passkeys_sdk.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home2/lookshan/public_html/app/settings.php:5
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/settings.php on line 5
+[09-Jul-2024 14:15:32 Europe/London] PHP Warning:  require(../includes/passkeys_sdk.php): Failed to open stream: No such file or directory in /home2/lookshan/public_html/app/settings.php on line 5
+[09-Jul-2024 14:15:32 Europe/London] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/passkeys_sdk.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home2/lookshan/public_html/app/settings.php:5
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/settings.php on line 5
+[09-Jul-2024 14:15:38 Europe/London] PHP Warning:  require(../includes/passkeys_sdk.php): Failed to open stream: No such file or directory in /home2/lookshan/public_html/app/settings.php on line 5
+[09-Jul-2024 14:15:38 Europe/London] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/passkeys_sdk.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home2/lookshan/public_html/app/settings.php:5
+Stack trace:
+#0 {main}
+  thrown in /home2/lookshan/public_html/app/settings.php on line 5
+[09-Jul-2024 14:19:45 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:19:45 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:19:45 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:19:48 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 80
+[09-Jul-2024 14:19:49 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:19:49 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:19:49 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:19:50 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 80
+[09-Jul-2024 14:19:54 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:19:54 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:19:54 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:19:58 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:19:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:19:58 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:20:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:20:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:20:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:20:05 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:20:05 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 14:20:05 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:20:05 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:20:05 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 14:20:07 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:20:07 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 14:26:24 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:26:24 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:26:24 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 14:26:27 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:26:27 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 14:26:27 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 17:10:18 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:10:18 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:10:42 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:10:42 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:15:59 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:15:59 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:15:59 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 17:16:01 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 17:16:01 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 17:16:04 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 17:16:04 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 17:16:04 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 17:16:04 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 17:16:04 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 17:16:07 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/settings.php on line 80
+[09-Jul-2024 17:16:14 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:16:14 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:16:14 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 17:16:18 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:16:18 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:16:18 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 17:16:22 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:16:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 44
+[09-Jul-2024 17:16:22 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 118
+[09-Jul-2024 18:26:14 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 46
+[09-Jul-2024 18:26:14 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 46
+[09-Jul-2024 18:26:14 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/dashboard.php on line 49
+[09-Jul-2024 18:26:14 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/dashboard.php on line 49
+[09-Jul-2024 18:26:14 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 49
+[09-Jul-2024 18:26:14 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/dashboard.php on line 113
+[09-Jul-2024 18:26:14 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/dashboard.php on line 113
+[09-Jul-2024 18:26:14 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/dashboard.php on line 120
+[09-Jul-2024 18:26:14 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/dashboard.php on line 120
+[09-Jul-2024 18:26:14 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 120
+[09-Jul-2024 18:27:17 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 18:27:17 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 59
+[09-Jul-2024 19:02:35 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 54
+[09-Jul-2024 19:02:35 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 54
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 110
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 110
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 113
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 113
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 113
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:03:37 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 162
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 87
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 87
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 90
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 90
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 90
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:04:13 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 139
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 119
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 119
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 122
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 122
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 122
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Warning:  Undefined array key "seller_id" in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:00 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 171
+[09-Jul-2024 19:08:28 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 19:08:28 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 76
+[09-Jul-2024 19:08:28 Europe/London] PHP Warning:  Undefined variable $user_info in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 19:08:28 Europe/London] PHP Warning:  Trying to access array offset on value of type null in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 19:08:28 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/user_hub.php on line 79
+[09-Jul-2024 19:19:16 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/dashboard.php on line 54
+[09-Jul-2024 19:19:16 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/dashboard.php on line 54
+[09-Jul-2024 19:19:18 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 19:19:18 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 19:25:03 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 19:25:03 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 19:42:41 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 19:42:41 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 19:42:42 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/app/license.php on line 208
+[09-Jul-2024 19:42:42 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/app/license.php on line 208

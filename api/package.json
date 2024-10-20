@@ -1,0 +1,13 @@
+{
+  "name": "proxy-server",
+  "version": "1.0.0",
+  "description": "Proxy server for Roblox API requests",
+  "main": "proxy.js",
+  "scripts": {
+    "start": "node proxy.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1"
+  }
+}

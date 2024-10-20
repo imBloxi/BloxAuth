@@ -1,0 +1,16 @@
+[08-Jul-2024 08:50:51 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 08:50:51 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 08:51:28 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 08:51:28 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 08:51:44 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 08:51:44 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 08:51:56 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 08:51:56 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 08:52:07 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 08:52:07 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 10:11:40 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 10:11:40 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 10:15:01 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 10:15:01 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 11:49:24 Europe/London] PHP Warning:  Undefined array key "username" in /home2/lookshan/public_html/delete_account/index.php on line 46
+[08-Jul-2024 11:49:24 Europe/London] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/lookshan/public_html/delete_account/index.php on line 46

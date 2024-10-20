@@ -1,158 +1,247 @@
 # BloxAuth License Management System
 
-BloxAuth is a robust license management system designed for Roblox game developers. It provides secure authentication and licensing functionality to protect your Roblox games from unauthorized use.
-![BloxiAuth Logo](https://i.ibb.co/9vDNBzf/bloxauth.jpg)
+A robust PHP-based license management system designed specifically for Roblox game developers, featuring a modular structure with dedicated components for administration, API handling, and billing management.
 
-## Table of Contents
+## Project Structure
 
-- [Features](#features)
-- [Setup](#setup)
-- [API Reference](#api-reference)
-- [Usage](#usage)
-- [Product Redesign](#product-redesign)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
+```
+bloxauth/
+├── .idea/
+├── admin/
+│   ├── index.php
+│   └── issue_keys.php
+├── api/
+│   ├── .htaccess
+│   ├── api.php
+│   ├── error_log/
+│   ├── generate_license.php
+│   ├── log_usage.php
+│   ├── lua.lua
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── proxy.js
+│   ├── sellix_webhook.php
+│   ├── validate_key.php
+│   └── whitelist.php
+├── app/
+│   ├── dashboard.php
+│   ├── error_log/
+│   ├── index.php
+│   ├── license.php
+│   ├── link_discord.php
+│   ├── mark_notification.php
+│   ├── moderation.php
+│   ├── process_application.php
+│   ├── review_applications.php
+│   ├── sellix_products.php
+│   ├── settings.php
+│   ├── setup_app.php
+│   ├── staff.php
+│   ├── update_passkey.php
+│   ├── user_hub.php
+│   └── verify_2fa.php
+├── assets/
+├── auth/
+├── billing/
+│   ├── confirm_payment.php
+│   ├── error_log/
+│   ├── index.php
+│   ├── link_roblox.php
+│   ├── payment.php
+│   ├── process_payment.php
+│   ├── request_gamepass.php
+│   └── verify_payment.php
+├── css/
+├── delete_account/
+├── includes/
+│   ├── db.php
+│   ├── footer.php
+│   ├── functions.php
+│   ├── header.php
+│   ├── navbar.php
+│   └── sellix_integration.php
+├── not-approved/
+└── obfuscate/
+```
 
-## Features
+## System Requirements
 
-- Secure license key validation
-- User authentication 
-- Free trial management
-- Usage analytics and reporting
-- In-app messaging and notifications
-- Integration with Sellix.io for secure payments
+- PHP 7.4 or higher
+- MySQL 5.7+ or MariaDB 10.2+
+- Apache with mod_rewrite enabled
+- PDO PHP Extension
+- JSON PHP Extension
 
-## Setup
+## Database Configuration
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/imBloxi/BloxAuth.git
-   ```
+The system uses PDO for database connections. Configuration is stored in `includes/config.php`:
 
-2. Set up your database:
-   - Create a MySQL database
-   - Import the schema from `db.sql`
+```php
+<?php
+$host = 'localhost';
+$db = 'roblox_licensing';
+$user = 'root';
+$pass = '';
+$charset = 'utf8mb4';
 
-3. Configure your environment variables:
-   - Copy `.env.example` to `.env`
-   - Fill in your database credentials and other configuration options
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
 
-4. Ensure your web server is configured to run PHP scripts
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+}
+?>
+```
 
-5. Set up a virtual host pointing to the `public` directory
+## Core Components
 
-## API Reference
+### Administration Module (`/admin`)
+- `index.php`: Main administration dashboard
+- `issue_keys.php`: License key management interface
 
-### Validate License Key
+### API Module (`/api`)
+- `validate_key.php`: License validation endpoint
+- `generate_license.php`: License generation endpoint
+- `log_usage.php`: Usage tracking
+- `sellix_webhook.php`: Payment integration with Sellix
+- `whitelist.php`: IP whitelisting management
+
+### Application Module (`/app`)
+- `dashboard.php`: User dashboard
+- `license.php`: License management
+- `user_hub.php`: User profile and settings
+- `verify_2fa.php`: Two-factor authentication
+- `settings.php`: Application settings
+
+### Billing Module (`/billing`)
+- `payment.php`: Payment processing
+- `confirm_payment.php`: Payment confirmation
+- `link_roblox.php`: Roblox account linking
+- `verify_payment.php`: Payment verification
+
+### Security Features
+
+1. **API Security**
+   - `.htaccess` configuration for API protection
+   - Request validation
+   - IP whitelisting
+
+2. **User Authentication**
+   - Two-factor authentication
+   - Session management
+   - Password security
+
+3. **Payment Processing**
+   - Secure Sellix.io integration
+   - Payment verification
+   - Webhook handling
+
+## API Endpoints
+
+### License Validation
+```http
 POST /api/validate_key.php
-```json
+Content-Type: application/json
+
 {
-"license_key": "YOUR_LICENSE_KEY",
-"roblox_id": "ROBLOX_USER_ID",
-"place_id": "ROBLOX_PLACE_ID"
+    "license_key": "XXXX-XXXX-XXXX-XXXX",
+    "roblox_id": "12345678",
+    "place_id": "87654321"
 }
 ```
-Response:
-```json
+
+### Generate License
+```http
+POST /api/generate_license.php
+Content-Type: application/json
+
 {
-"status": "success",
-"message": "License validated successfully."
+    "user_id": "12345",
+    "license_type": "premium",
+    "duration": "30"
 }
 ```
 
-### Start Free Trial
-POST /api/start_free_trial.php
+## Integration Components
 
-Request body:
-```json
+### Sellix Integration
+```php
+// includes/sellix_integration.php
+require_once 'config.php';
 
-Request body:
-{
-"user_id": "USER_ID",
-"trial_days": 14
+function process_sellix_webhook($payload) {
+    global $pdo;
+    // Webhook processing logic
 }
 ```
 
-## Usage
+### Discord Integration
+- `link_discord.php`: Discord account linking
+- OAuth2 authentication flow
+- Role synchronization
 
-### Roblox Script Integration
+## User Management
 
-Include the following script in your Roblox game:
-```lua
-lua
-local HttpService = game:GetService("HttpService")
-local Players = game:GetService("Players")
-local User_License_Key = 'YOUR_LICENSE_KEY_HERE'
-local function validate_license()
-local player = Players.LocalPlayer
-local roblox_id = player.UserId
-local place_id = game.PlaceId
-local is_https = string.sub(game:GetService("HttpService").Url, 1, 5) == "https"
-if not is_https then
-player:Kick("This place does not have HTTPS enabled.")
-return
-end
-local url = "https://your-domain.com/api/validate_key.php"
-local data = {
-license_key = User_License_Key,
-roblox_id = tostring(roblox_id),
-place_id = tostring(place_id)
+1. **Registration Flow**
+   - Account creation
+   - Email verification
+   - Optional 2FA setup
+
+2. **License Management**
+   - License issuance
+   - Usage tracking
+   - Renewal handling
+
+3. **Staff Management**
+   - Moderation tools
+   - Application review system
+   - Staff permissions
+
+## Development Guidelines
+
+1. **Code Style**
+   - Follow PSR-12 coding standards
+   - Use prepared statements for database queries
+   - Implement proper error handling
+
+2. **Security Practices**
+   - Input validation
+   - Output sanitization
+   - CSRF protection
+   - XSS prevention
+
+3. **Documentation**
+   - Code comments
+   - API documentation
+   - Change log maintenance
+
+## Error Handling
+
+```php
+try {
+    // Operation code
+} catch (\PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    // Handle error appropriately
+} catch (\Exception $e) {
+    error_log("General error: " . $e->getMessage());
+    // Handle error appropriately
 }
-local jsonData = HttpService:JSONEncode(data)
-local response = HttpService:PostAsync(url, jsonData, Enum.HttpContentType.ApplicationJson)
-local result = HttpService:JSONDecode(response)
-if result.status == "success" then
-print("License validated successfully.")
-else
-player:Kick("License validation failed: " .. result.message)
-end
-end
-validate_license()
 ```
-
-## Product Redesign
-
-We recently underwent a product redesign to improve user experience and add new features. Key changes include:
-
-- Updated user interface for better usability
-- Enhanced analytics dashboard
-- Improved onboarding process for new users
-- Integration of free trial system
-
-Our redesign process followed these steps:
-
-1. Defined business goals and objectives
-2. Conducted user research to identify areas for improvement
-3. Paired user research with product usage analytics
-4. Created prototypes and validated concepts with real users
-5. Ran marketing campaigns to prepare users for the release
-6. Launched the redesigned product to our audience
-7. Implemented user onboarding for the new design
-8. Continuously gathered user feedback for further improvements
-
-For more details on our redesign process, see [this guide on product redesign](https://userpilot.com/blog/product-redesign/) [1].
-
-## Troubleshooting
-
-If you encounter issues with Google Play compliance, follow these steps:
-
-1. Go to your Play Console
-2. Select the app
-3. Go to App bundle explorer
-4. Select the non-compliant APK version
-5. Create a new release with the policy-compliant version
-6. Ensure the non-compliant version is under the "Not included" section
-7. Submit the update for review
-
-For more detailed instructions, refer to [this Stack Overflow answer](https://stackoverflow.com/a/67796763) [2].
 
 ## Contributing
 
-We welcome contributions to BloxAuth! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to submit pull requests, report issues, and suggest improvements.
+1. Fork the repository
+2. Create a feature branch
+3. Follow coding standards
+4. Submit a pull request
 
 ## License
 
-This project is licensed under the Apache 2.0 - see the [LICENSE.md](LICENSE.md) file for details.
-
-
+This project is licensed under the Apache 2.0 License. See LICENSE.md for details.

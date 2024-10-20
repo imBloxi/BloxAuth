@@ -93,25 +93,24 @@ $charset = 'utf8mb4';
 ## 🔧 Core Components
 
 ### 👑 Administration Module (`/admin`)
-![Admin Dashboard](https://i.ibb.co/dashboard-preview.jpg)
+
 - Complete management interface
 - Key generation system
 - User management
 
 ### 🔌 API Module (`/api`)
-![API Documentation](https://i.ibb.co/api-preview.jpg)
 - RESTful endpoints
 - Secure validation
 - Usage tracking
 
 ### 📱 Application Module (`/app`)
-![User Dashboard](https://i.ibb.co/user-dashboard.jpg)
+![User Dashboard](https://i.ibb.co/GHGsfgh/8-Y723-G7-UBUI.jpg)
 - User interface
 - License management
 - Profile settings
 
 ### 💳 Billing Module (`/billing`)
-![Payment System](https://i.ibb.co/payment-preview.jpg)
+![Payment System](https://i.ibb.co/D4BM0dW/8Y23HTU.png)
 - Secure payments
 - Multiple gateways
 - Transaction logging

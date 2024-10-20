@@ -9,7 +9,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/imBloxi/BloxAuth/pulls)
 [![Discord](https://img.shields.io/discord/1234567890?color=7289da&label=Discord&logo=discord&logoColor=white)](https://discord.gg/bloxauth)
 
-![BloxAuth Logo](https://i.ibb.co/9vDNBzf/bloxauth.jpg)
+![BloxAuth Logo]([https://i.ibb.co/9vDNBzf/bloxauth.jpg](https://i.ibb.co/5KnB3kb/White-Modern-Simple-Travel-You-Tube-Banner-kopija-kopija.jpg))
 
 **A robust PHP-based license management system designed specifically for Roblox game developers**
 
@@ -41,6 +41,7 @@
   - Real-time stats
   - Export capabilities
 
+![BloxAuth Logo](https://i.ibb.co/9vDNBzf/bloxauth.jpg)
 ## 📋 Project Structure
 
 ```

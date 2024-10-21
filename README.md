@@ -3,7 +3,7 @@
 <div align="center">
 Project brought to you by: https://github.com/BloxiAuth team
 
-  ![BloxAuth TEAM](https://i.ibb.co/pxNHYzz/8-Y23-HTU-3.png)
+  ![BloxAuth TEAM](https://i.ibb.co/NxbbtJ9/8-Y23-HTU-3-removebg-preview.png)
   
 [![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue.svg)](https://php.net)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE.md)

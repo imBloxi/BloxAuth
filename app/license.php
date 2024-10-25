@@ -1,8 +1,5 @@
 <?php
-session_start();
-require '../includes/db.php';
-require '../includes/functions.php';
-
+require_once '../includes/config.php';
 redirect_if_not_logged_in();
 
 $user_id = $_SESSION['user_id'];
@@ -29,10 +26,11 @@ function fetch_custom_tiers($pdo, $user_id) {
 // Function to send Discord webhook
 function send_discord_webhook($webhook_url, $license_key, $tier) {
     $data = [
-        "content" => "New license created!",
+        "content" => "New license created: $license_key",
         "embeds" => [
             [
                 "title" => "License Details",
+                "description" => "A new license has been issued.",
                 "fields" => [
                     ["name" => "License Key", "value" => $license_key, "inline" => true],
                     ["name" => "Tier", "value" => $tier, "inline" => true]
@@ -50,9 +48,11 @@ function send_discord_webhook($webhook_url, $license_key, $tier) {
         ]
     ];
 
-    $context  = stream_context_create($options);
-    $result = @file_get_contents($webhook_url, false, $context);
-    return $result !== false;
+    $context = stream_context_create($options);
+    $result = file_get_contents($webhook_url, false, $context);
+    if ($result === FALSE) {
+        error_log("Failed to send Discord webhook.");
+    }
 }
 
 // Function to renew a license
@@ -67,36 +67,27 @@ function renew_license($pdo, $user_id, $license_id, $new_valid_until) {
     }
 }
 
-// Function to log user actions
-function log_user_action($pdo, $user_id, $action) {
-    $stmt = $pdo->prepare("INSERT INTO user_activity_logs (user_id, action, timestamp) VALUES (?, ?, NOW())");
-    $stmt->execute([$user_id, $action]);
+// Function to create a license
+function create_license($pdo, $user_id, $roblox_user_id, $description, $valid_until) {
+    $stmt = $pdo->prepare("INSERT INTO licenses_new (user_id, roblox_user_id, description, valid_until, whitelist_type) VALUES (?, ?, ?, ?, 'user')");
+    return $stmt->execute([$user_id, $roblox_user_id, $description, $valid_until]);
 }
 
 // Handle license actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['create_license'])) {
-        $license_data = [
-            'key' => generate_unique_license_key($pdo),
-            'whitelist_id' => $_POST['whitelist_id'] ?? '',
-            'whitelist_type' => $_POST['whitelist_type'] ?? 'user',
-            'description' => $_POST['description'] ?? '',
-            'valid_until' => $_POST['valid_until'] ?? null,
-            'roblox_user_id' => $_POST['roblox_user_id'] ?? null,
-            'max_uses' => $_POST['max_uses'] ?? null,
-            'is_transferable' => isset($_POST['is_transferable']) ? 1 : 0,
-            'custom_tier' => $_POST['custom_tier'] ?? null
-        ];
+        $roblox_user_id = $_POST['roblox_user_id'];
+        $description = $_POST['description'] ?? '';
+        $valid_until = $_POST['valid_until'] ?? null;
 
-        if (save_license($pdo, $user_id, $license_data)) {
-            // Send Discord webhook
-            $discord_webhook_url = $user_info['discord_webhook_url'];
-            if ($discord_webhook_url) {
-                send_discord_webhook($discord_webhook_url, $license_data['key'], $license_data['custom_tier']);
-            }
-            $_SESSION['message'] = "License created and saved successfully.";
+        if (!is_numeric($roblox_user_id)) {
+            $_SESSION['error_message'] = "Invalid Roblox USER ID provided.";
         } else {
-            $_SESSION['error'] = "Failed to save license.";
+            if (create_license($pdo, $user_id, $roblox_user_id, $description, $valid_until)) {
+                $_SESSION['success_message'] = "License created successfully.";
+            } else {
+                $_SESSION['error_message'] = "Failed to create license.";
+            }
         }
     } elseif (isset($_POST['create_custom_tier'])) {
         $tier_name = $_POST['tier_name'];
@@ -109,7 +100,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['delete_license'])) {
         delete_license($pdo, $user_id, $_POST['license_id']);
     } elseif (isset($_POST['ban_license'])) {
-        ban_license($pdo, $user_id, $_POST['license_id'], $_POST['ban_reason']);
+        $response = apiRequest('index.php?type=ban', 'POST', [
+            'license_id' => $_POST['license_id'],
+            'ban_reason' => $_POST['ban_reason']
+        ]);
+
+        if ($response['success']) {
+            $_SESSION['message'] = "License banned successfully.";
+        } else {
+            $_SESSION['error'] = "Failed to ban license.";
+        }
     } elseif (isset($_POST['bulk_action'])) {
         handle_bulk_action($pdo, $user_id, $_POST['license_ids'], $_POST['bulk_action']);
     } elseif (isset($_POST['renew_license'])) {
@@ -124,56 +124,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $licenses = fetch_licenses($pdo, $user_id, $_GET);
 $custom_tiers = fetch_custom_tiers($pdo, $user_id);
 
-// Function to generate a unique license key
-function generate_unique_license_key($pdo) {
-    do {
-        $license_key = bin2hex(random_bytes(16));
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM licenses_new WHERE `key` = ?");
-        $stmt->execute([$license_key]);
-        $count = $stmt->fetchColumn();
-    } while ($count > 0);
-
-    return $license_key;
-}
-
-// Function to delete a license
-function delete_license($pdo, $user_id, $license_id) {
-    $stmt = $pdo->prepare("DELETE FROM licenses WHERE id = ? AND user_id = ?");
-    $stmt->execute([$license_id, $user_id]);
-
-    $_SESSION['message'] = "License deleted successfully.";
-}
-
-// Function to ban a license
-function ban_license($pdo, $user_id, $license_id, $ban_reason) {
-    $stmt = $pdo->prepare("UPDATE licenses_new SET is_banned = 1, ban_reason = ? WHERE id = ? AND user_id = ?");
-    $stmt->execute([$ban_reason, $license_id, $user_id]);
-
-    if ($stmt->rowCount() > 0) {
-        $_SESSION['message'] = "License banned successfully.";
-    } else {
-        $_SESSION['error'] = "Failed to ban license. Please ensure the license exists and belongs to you.";
-    }
-}
-
-// Function to handle bulk actions
-function handle_bulk_action($pdo, $user_id, $license_ids, $action) {
-    foreach ($license_ids as $license_id) {
-        if ($action === 'delete') {
-            delete_license($pdo, $user_id, $license_id);
-        } elseif ($action === 'ban') {
-            ban_license($pdo, $user_id, $license_id, 'Bulk ban action');
-        }
-    }
-
-    $_SESSION['message'] = "Bulk action completed successfully.";
-}
-
 // Function to fetch license logs
 function getLicenseLogs($license_id, $pdo) {
     $stmt = $pdo->prepare("SELECT * FROM license_logs WHERE license_id = ? ORDER BY timestamp DESC LIMIT 10");
     $stmt->execute([$license_id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function apiRequest($endpoint, $method, $data) {
+    $apiUrl = APP_URL . '/api/v1/licenses/' . $endpoint;
+    $apiKey = API_KEY; // Assume API_KEY is defined in config.php
+
+    $options = [
+        'http' => [
+            'header'  => "Content-Type: application/json\r\nAuthorization: Bearer $apiKey\r\n",
+            'method'  => $method,
+            'content' => json_encode($data)
+        ]
+    ];
+
+    $context = stream_context_create($options);
+    $result = file_get_contents($apiUrl, false, $context);
+    if ($result === FALSE) { /* Handle error */ }
+
+    return json_decode($result, true);
 }
 
 ?>
@@ -183,12 +157,12 @@ function getLicenseLogs($license_id, $pdo) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>License Management - BloxAuth</title>
+    <title>License Management - <?php echo APP_NAME; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.2/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
-<body class="h-full" x-data="{ showCreateModal: false, showLogsModal: false, showBanModal: false, showCustomTierModal: false, currentLogs: [], currentLicenseId: null, licenseType: 'standard', idType: 'user' }">
+<body class="h-full" x-data="{ showCreateModal: false, showEditModal: false, currentLicense: {} }">
     <div class="min-h-full">
         <?php include '../includes/navbar.php'; ?>
 
@@ -198,254 +172,197 @@ function getLicenseLogs($license_id, $pdo) {
             </div>
         </header>
 
-        <main>
-            <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                <?php if (isset($_SESSION['message'])): ?>
-                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
-                        <p><?= $_SESSION['message'] ?></p>
-                        <?php unset($_SESSION['message']); ?>
-                    </div>
-                <?php endif; ?>
-
-                <!-- API Key Section -->
-                <div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200 mb-6">
-                    <div class="px-4 py-5 sm:px-6">
-                        <h2 class="text-lg font-medium text-gray-900">API Key</h2>
-                        <p class="mt-1 text-sm text-gray-500">Use this key to authenticate your API requests.</p>
-                    </div>
-                    <div class="px-4 py-5 sm:p-6">
-                        <div class="flex items-center">
-                            <input type="text" id="apiKey" value="<?= htmlspecialchars($api_key) ?>" readonly class="flex-grow bg-gray-100 p-2 rounded mr-2">
-                            <button onclick="copyApiKey()" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
-                                <i class="fas fa-copy mr-2"></i>Copy
-                            </button>
-                        </div>
-                    </div>
+        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <?php if (isset($_SESSION['success_message'])): ?>
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
+                    <p><?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?></p>
                 </div>
+            <?php endif; ?>
 
-                <!-- License Management Section -->
-                <div class="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
-                    <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
-                        <h2 class="text-lg font-medium text-gray-900">Your Licenses</h2>
-                        <button @click="showCreateModal = true" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
-                            <i class="fas fa-plus mr-2"></i>Create New License
-                        </button>
-                    </div>
-                    <div class="px-4 py-5 sm:p-6">
-                        <!-- Advanced search and filter form -->
-                        <form action="" method="get" class="mb-4">
-                            <!-- Add search and filter inputs here -->
-                        </form>
-
-                        <!-- Licenses table -->
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">License Key</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valid Until</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <?php foreach ($licenses as $license): ?>
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($license['key']) ?></td>
-                                            <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($license['whitelist_type']) ?></td>
-                                            <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($license['description']) ?></td>
-                                            <td class="px-6 py-4 whitespace-nowrap"><?= $license['valid_until'] ? date('Y-m-d', strtotime($license['valid_until'])) : 'N/A' ?></td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <button @click="showLogsModal = true; currentLogs = <?= htmlspecialchars(json_encode(getLicenseLogs($license['id'], $pdo))) ?>" class="text-blue-600 hover:text-blue-900">Logs</button>
-                                                <button @click="showBanModal = true; currentLicenseId = <?= $license['id'] ?>" class="text-red-600 hover:text-red-900">Ban</button>
-                                                <form action="" method="post" class="inline">
-                                                    <input type="hidden" name="license_id" value="<?= $license['id'] ?>">
-                                                    <button type="submit" name="delete_license" class="text-red-600 hover:text-red-900">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Bulk actions form -->
-                        <form action="" method="post" class="mt-4">
-                            <!-- Add bulk action inputs and button here -->
-                        </form>
-                    </div>
+            <?php if (isset($_SESSION['error_message'])): ?>
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+                    <p><?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?></p>
                 </div>
-            </div>
-        </main>
-    </div>
+            <?php endif; ?>
 
-    <!-- Modify the Create License Modal -->
-    <div x-show="showCreateModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
-            <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Create New License</h2>
-            <form action="license.php" method="post">
-                <div class="mb-4">
-                    <label for="license_type" class="block text-sm font-medium text-gray-700">License Type</label>
-                    <input type="text" id="license_type" name="license_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Enter custom license type">
-                </div>
-
-                <!-- Adaptive User ID Section -->
-                <div class="mb-4">
-                    <label for="id_type" class="block text-sm font-medium text-gray-700">ID Type</label>
-                    <select id="id_type" name="id_type" x-model="idType" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option value="user">User</option>
-                        <option value="group">Group</option>
-                        <option value="organization">Organization</option>
-                    </select>
-                </div>
-
-                <!-- Adaptive ID Input Field -->
-                <div class="mb-4">
-                    <label :for="idType + '_id'" class="block text-sm font-medium text-gray-700" x-text="idType.charAt(0).toUpperCase() + idType.slice(1) + ' ID'"></label>
-                    <input :type="idType === 'user' ? 'number' : 'text'" :id="idType + '_id'" :name="idType + '_id'" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" :placeholder="'Enter ' + idType + ' ID'">
-                </div>
-
-                <!-- Additional API Inputs for Licenses -->
-                <div x-show="licenseType === 'premium' || licenseType === 'enterprise'" class="mb-4">
-                    <label for="api_key" class="block text-sm font-medium text-gray-700">API Key</label>
-                    <input type="text" id="api_key" name="api_key" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Enter API key">
-                </div>
-
-                <div x-show="licenseType === 'premium' || licenseType === 'enterprise'" class="mb-4">
-                    <label for="webhook_url" class="block text-sm font-medium text-gray-700">Webhook URL</label>
-                    <input type="url" id="webhook_url" name="webhook_url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="https://example.com/webhook">
-                </div>
-
-                <div x-show="licenseType === 'enterprise'" class="mb-4">
-                    <label for="custom_domain" class="block text-sm font-medium text-gray-700">Custom Domain</label>
-                    <input type="text" id="custom_domain" name="custom_domain" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="api.yourdomain.com">
-                </div>
-
-                <div class="mb-4">
-                    <label for="whitelist_type" class="block text-sm font-medium text-gray-700">Whitelist Type</label>
-                    <select id="whitelist_type" name="whitelist_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <div class="mb-4 flex justify-between items-center">
+                <button @click="showCreateModal = true" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Create New License
+                </button>
+                <form action="" method="get" class="flex">
+                    <input type="text" name="search" placeholder="Search licenses" class="rounded-l-md border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white px-3 py-2">
+                    <select name="whitelist_type" class="border-t border-b border-gray-200 bg-white px-3 py-2">
+                        <option value="">All Types</option>
                         <option value="user">User</option>
                         <option value="group">Group</option>
                         <option value="place">Place</option>
                     </select>
-                </div>
-                <div class="mb-4">
-                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea id="description" name="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="valid_until" class="block text-sm font-medium text-gray-700">Valid Until</label>
-                        <input type="datetime-local" id="valid_until" name="valid_until" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label for="max_uses" class="block text-sm font-medium text-gray-700">Max Uses</label>
-                        <input type="number" id="max_uses" name="max_uses" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Leave blank for unlimited">
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label for="roblox_user_id" class="block text-sm font-medium text-gray-700">Roblox User ID</label>
-                    <input type="number" id="roblox_user_id" name="roblox_user_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                </div>
-                <div class="mb-4">
-                    <label class="flex items-center">
-                        <input type="checkbox" name="is_transferable" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <span class="ml-2 text-sm text-gray-600">Transferable</span>
-                    </label>
-                </div>
-                <div x-show="licenseType === 'premium' || licenseType === 'enterprise'" class="mb-4">
-                    <label for="custom_field" class="block text-sm font-medium text-gray-700">Custom Field</label>
-                    <input type="text" id="custom_field" name="custom_field" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                </div>
-                <div x-show="licenseType === 'enterprise'" class="mb-4">
-                    <label for="api_rate_limit" class="block text-sm font-medium text-gray-700">API Rate Limit (requests per minute)</label>
-                    <input type="number" id="api_rate_limit" name="api_rate_limit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                </div>
-                <div class="mb-4">
-                    <label for="custom_tier" class="block text-sm font-medium text-gray-700">Custom Tier</label>
-                    <select id="custom_tier" name="custom_tier" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option value="">Select a tier</option>
-                        <?php foreach ($custom_tiers as $tier): ?>
-                            <option value="<?= htmlspecialchars($tier['tier_name']) ?>"><?= htmlspecialchars($tier['tier_name']) ?></option>
+                    <button type="submit" class="px-4 rounded-r-md bg-gray-300 text-gray-800 font-bold py-2 uppercase border-gray-300 border-t border-b border-r">Search</button>
+                </form>
+            </div>
+
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">License Key</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valid Until</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php foreach ($licenses as $license): ?>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?php echo htmlspecialchars($license['key']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo htmlspecialchars($license['whitelist_type']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo htmlspecialchars($license['description']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $license['valid_until']; ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button @click="currentLicense = <?php echo htmlspecialchars(json_encode($license)); ?>; showEditModal = true" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</button>
+                                    <form method="post" class="inline">
+                                        <input type="hidden" name="license_id" value="<?php echo $license['id']; ?>">
+                                        <button type="submit" name="revoke_license" class="text-red-600 hover:text-red-900">Revoke</button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <div class="flex justify-between items-center">
-                    <button type="submit" name="create_license" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">Create License</button>
-                    <button type="button" @click="showCustomTierModal = true" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
-                        <i class="fas fa-plus mr-2"></i>Add Custom Tier
-                    </button>
-                </div>
-            </form>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </div>
 
-    <!-- Custom Tier Modal -->
-    <div x-show="showCustomTierModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Create Custom Tier</h2>
-            <form action="license.php" method="post">
-                <div class="mb-4">
-                    <label for="tier_name" class="block text-sm font-medium text-gray-700">Tier Name</label>
-                    <input type="text" id="tier_name" name="tier_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                </div>
-                <div class="mb-4">
-                    <label for="tier_benefits" class="block text-sm font-medium text-gray-700">Tier Benefits</label>
-                    <textarea id="tier_benefits" name="tier_benefits" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" @click="showCustomTierModal = false" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md mr-2 hover:bg-gray-400 transition">Cancel</button>
-                    <button type="submit" name="create_custom_tier" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">Create Tier</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div x-show="showLogsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 class="text-2xl font-semibold mb-4 text-indigo-600">License Logs</h2>
-            <ul class="mb-4 max-h-60 overflow-y-auto">
-                <template x-for="log in currentLogs" :key="log.id">
-                    <li class="mb-2">
-                        <span x-text="log.action"></span> - 
-                        IP: <span x-text="log.ip_address"></span> - 
-                        <span x-text="new Date(log.timestamp).toLocaleString()"></span>
-                    </li>
-                </template>
-            </ul>
-            <div class="flex justify-end">
-                <button @click="showLogsModal = false" class="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700">Close</button>
+    <!-- Create License Modal -->
+    <div x-show="showCreateModal" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <form action="" method="post">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="mb-4">
+                            <label for="whitelist_type" class="block text-sm font-medium text-gray-700">License Type</label>
+                            <select name="whitelist_type" id="whitelist_type" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="user">User</option>
+                                <option value="group">Group</option>
+                                <option value="place">Place</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="whitelist_id" class="block text-sm font-medium text-gray-700">Roblox User ID</label>
+                            <input type="text" name="roblox_user_id" id="whitelist_id" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="mb-4">
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <input type="text" name="description" id="description" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="mb-4">
+                            <label for="valid_until" class="block text-sm font-medium text-gray-700">Valid Until</label>
+                            <input type="datetime-local" name="valid_until" id="valid_until" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="mb-4">
+                            <label for="roblox_user_id" class="block text-sm font-medium text-gray-700">Roblox User ID</label>
+                            <input type="text" name="roblox_user_id" id="roblox_user_id" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <p class="mt-1 text-sm text-gray-600">
+                                Please verify the Roblox User ID carefully. <a href="#" id="robloxProfileLink" target="_blank">Click here to view profile.</a>
+                            </p>
+                        </div>
+                        <script>
+                            const robloxUserIdInput = document.getElementById('roblox_user_id');
+                            const robloxProfileLink = document.getElementById('robloxProfileLink');
+                            robloxUserIdInput.addEventListener('input', function() {
+                                if (this.value.match(/^\d+$/)) {
+                                    robloxProfileLink.href = `https://www.roblox.com/users/${this.value}/profile`;
+                                } else {
+                                    robloxProfileLink.href = '#';
+                                }
+                            });
+                        </script>
+                        <div class="mb-4">
+                            <label for="max_uses" class="block text-sm font-medium text-gray-700">Max Uses</label>
+                            <input type="number" name="max_uses" id="max_uses" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="mb-4">
+                            <label for="custom_tier" class="block text-sm font-medium text-gray-700">Custom Tier</label>
+                            <input type="text" name="custom_tier" id="custom_tier" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="mb-4">
+                            <label for="webhook_url" class="block text-sm font-medium text-gray-700">Webhook URL</label>
+                            <input type="url" name="webhook_url" id="webhook_url" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="flex items-start mb-4">
+                            <div class="flex items-center h-5">
+                                <input type="checkbox" name="transferable" id="transferable" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="transferable" class="font-medium text-gray-700">Transferable</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="submit" name="create_license" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            Create License
+                        </button>
+                        <button type="button" @click="showCreateModal = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-    <div x-show="showBanModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Ban License</h2>
-            <form action="license.php" method="post">
-                <input type="hidden" name="license_id" x-bind:value="currentLicenseId">
-                <div class="mb-4">
-                    <label for="ban_reason" class="block text-sm font-medium text-gray-700">Ban Reason</label>
-                    <textarea id="ban_reason" name="ban_reason" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required></textarea>
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" @click="showBanModal = false" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md mr-2 hover:bg-gray-400 transition">Cancel</button>
-                    <button type="submit" name="ban_license" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition">Ban License</button>
-                </div>
-            </form>
+    <!-- Edit License Modal -->
+    <div x-show="showEditModal" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <form action="" method="post">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <input type="hidden" name="license_id" x-bind:value="currentLicense.id">
+                        <div class="mb-4">
+                            <label for="edit_description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <input type="text" name="description" id="edit_description" x-bind:value="currentLicense.description" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="mb-4">
+                            <label for="edit_valid_until" class="block text-sm font-medium text-gray-700">Valid Until</label>
+                            <input type="datetime-local" name="valid_until" id="edit_valid_until" x-bind:value="currentLicense.valid_until" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="mb-4">
+                            <label for="edit_max_uses" class="block text-sm font-medium text-gray-700">Max Uses</label>
+                            <input type="number" name="max_uses" id="edit_max_uses" x-bind:value="currentLicense.max_uses" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="mb-4">
+                            <label for="edit_custom_tier" class="block text-sm font-medium text-gray-700">Custom Tier</label>
+                            <input type="text" name="custom_tier" id="edit_custom_tier" x-bind:value="currentLicense.custom_tier" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="mb-4">
+                            <label for="edit_webhook_url" class="block text-sm font-medium text-gray-700">Webhook URL</label>
+                            <input type="url" name="webhook_url" id="edit_webhook_url" x-bind:value="currentLicense.webhook_url" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="flex items-start mb-4">
+                            <div class="flex items-center h-5">
+                                <input type="checkbox" name="transferable" id="edit_transferable" x-bind:checked="currentLicense.transferable" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="edit_transferable" class="font-medium text-gray-700">Transferable</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="submit" name="edit_license" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            Update License
+                        </button>
+                        <button type="button" @click="showEditModal = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-
-    <script>
-        function copyApiKey() {
-            const apiKeyInput = document.getElementById('apiKey');
-            apiKeyInput.select();
-            apiKeyInput.setSelectionRange(0, 99999); // For mobile devices
-            document.execCommand('copy');
-            alert('API Key copied to clipboard');
-        }
-    </script>
 </body>
 </html>

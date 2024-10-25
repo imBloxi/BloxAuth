@@ -1,49 +1,69 @@
 <?php
-require '../includes/db.php';
-
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once '../includes/config.php';
+require_once '../includes/functions.php';
 
 header('Content-Type: application/json');
 
-$data = json_decode(file_get_contents('php://input'), true);
+// Extract the Bearer token from the Authorization header
+$authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+$matches = [];
+preg_match('/Bearer\s(\S+)/', $authHeader, $matches);
+$apiToken = $matches[1] ?? '';
 
-$license_key = $data['license_key'] ?? null;
-$place_id = $data['place_id'] ?? null;
-$group_id = $data['group_id'] ?? null;
-$developer_id = $data['developer_id'] ?? null;
-$seller_id = $data['seller_id'] ?? null;
-
-if (!$license_key || !$place_id || !$group_id || !$developer_id || !$seller_id) {
-    echo json_encode(['status' => 'error', 'message' => 'Missing parameters.']);
-    exit();
+// Validate the API token
+if (!validate_api_token($pdo, $apiToken)) {
+    http_response_code(401); // Unauthorized
+    echo json_encode(['error' => 'Invalid or missing API token']);
+    exit;
 }
 
-try {
-    // Log the request for auditing
-    $log_stmt = $pdo->prepare('INSERT INTO api_logs (license_key, place_id, group_id, developer_id, seller_id, request_time) VALUES (?, ?, ?, ?, ?, NOW())');
-    $log_stmt->execute([$license_key, $place_id, $group_id, $developer_id, $seller_id]);
+// Switch statement based on URL's endpoint
+$uri = $_SERVER['REQUEST_URI'];
+if (strpos($uri, 'log_usage') !== false) {
+    // Handle logging usage
+    $data = json_decode(file_get_contents('php://input'), true);
+    log_usage($data);
+} elseif (strpos($uri, 'validate_license') !== false) {
+    // Handle license validation
+    $data = json_decode(file_get_contents('php://input'), true);
+    validate_license($data);
+} else {
+    http_response_code(404); // Not Found
+    echo json_encode(['error' => 'Endpoint not found']);
+}
 
-    // Validate the license
-    $stmt = $pdo->prepare('SELECT * FROM licenses_new WHERE `key` = ? AND whitelist_id = ? AND whitelist_type = ?');
-    $stmt->execute([$license_key, $place_id, 'place']);
-    $license = $stmt->fetch();
-
-    if ($license) {
-        // Additional checks for developer_id and group_id
-        if ($license['developer_id'] == $developer_id && $license['group_id'] == $group_id) {
-            echo json_encode(['status' => 'success', 'message' => 'License is valid.']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Developer ID or Group ID mismatch.']);
-        }
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'License not found or invalid.']);
+function log_usage($data) {
+    // Validate data
+    if (!isset($data['roblox_user_id'], $data['license_key'], $data['action'])) {
+        http_response_code(400); // Bad Request
+        echo json_encode(['error' => 'Missing required fields']);
+        return;
     }
-} catch (PDOException $e) {
-    echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
-} catch (Exception $e) {
-    echo json_encode(['status' => 'error', 'message' => 'General error: ' . $e->getMessage()]);
+
+    // Implement your logging logic here
+    // Example: insert log data into database
+    // ...
+
+    echo json_encode(['status' => 'success']);
+}
+
+function validate_license($data) {
+    if (!isset($data['license_key'], $data['roblox_place_id'])) {
+        http_response_code(400); // Bad Request
+        echo json_encode(['error' => 'Missing required fields']);
+        return;
+    }
+
+    // Implement your license validation logic here
+    // Example: check license in database
+    // ...
+
+    echo json_encode(['status' => 'success']);
+}
+
+function validate_api_token($pdo, $token) {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM api_keys WHERE token = ?");
+    $stmt->execute([$token]);
+    return $stmt->fetchColumn() > 0;
 }
 ?>

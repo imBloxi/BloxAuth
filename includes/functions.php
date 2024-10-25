@@ -14,6 +14,61 @@ if (!function_exists('redirect_if_not_logged_in')) {
         }
     }
 }
+function fetch_license_types($pdo) {
+    $stmt = $pdo->prepare("SELECT * FROM license_types ORDER BY name");
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
+if (!function_exists('create_license')) {
+    function create_license($pdo, $license_data) {
+        try {
+            $pdo->beginTransaction();
+            $license_key = generate_unique_license_key($pdo);
+            $stmt = $pdo->prepare("INSERT INTO licenses_new (user_id, `key`, whitelist_id, whitelist_type, description, valid_until, roblox_user_id, max_uses, transferable, custom_tier) 
+                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([
+                $license_data['user_id'],
+                $license_key,
+                $license_data['whitelist_id'],
+                $license_data['whitelist_type'],
+                $license_data['description'],
+                $license_data['valid_until'],
+                $license_data['roblox_user_id'],
+                $license_data['max_uses'],
+                $license_data['transferable'],
+                $license_data['custom_tier']
+            ]);
+            $pdo->commit();
+            return ['success' => true, 'license_key' => $license_key];
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+}
+
+if (!function_exists('fetch_licenses')) {
+    function fetch_licenses($pdo, $user_id) {
+        $stmt = $pdo->prepare("SELECT l.*, lt.name as license_type FROM licenses l JOIN license_types lt ON l.license_type_id = lt.id WHERE l.user_id = ? ORDER BY l.created_at DESC");
+        $stmt->execute([$user_id]);
+        return $stmt->fetchAll();
+    }
+}
+
+// Ensure the detailed fetch_licenses function is also conditionally declared
+if (!function_exists('fetch_licenses')) {
+    function fetch_licenses($pdo, $user_id, $filters = []) {
+        $query = "SELECT * FROM licenses_new WHERE user_id = :user_id";
+        $params = [':user_id' => $user_id];
+
+        // Add filtering logic here based on $filters
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
 
 function get_user_by_id($user_id) {
     global $pdo;
@@ -149,10 +204,21 @@ function fetch_active_users_count($pdo) {
     $stmt->execute();
     return $stmt->fetchColumn();
 }
-
 function fetch_average_session_duration($pdo) {
-    // This is a placeholder. You'll need to implement session tracking to get accurate data.
-    return 15; // Return a default value of 15 minutes for now
+    $query = "SELECT AVG(TIMESTAMPDIFF(MINUTE, login_time, IFNULL(logout_time, NOW()))) AS avg_duration
+              FROM user_sessions
+              WHERE login_time >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
+    
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($result && $result['avg_duration'] !== null) {
+        return round($result['avg_duration'], 2);
+    } else {
+        return 0; // Return 0 if no data
+    }
 }
 
 function fetch_recent_user_activities($pdo, $user_id, $limit = 5) {
@@ -382,6 +448,95 @@ function updateActiveScriptVersion($pdo, $user_id, $script_id, $version_id) {
         WHERE s.id = ? AND s.user_id = ?
     ");
     return $stmt->execute([$version_id, $version_id, $script_id, $user_id]);
+}
+
+// Renaming the second create_license function to create_detailed_license
+function create_detailed_license($pdo, $user_id, $data) {
+    // Implementation for creating a new license with detailed data
+    // Use $data to get the form inputs
+    // Ensure this function's implementation is correct as per your requirements
+}
+
+// Check and adjust the function that handles license editing
+// Assuming a function exists, ensure it is correctly updating the database
+function edit_license($pdo, $license_id, $updated_data) {
+    // Example implementation, adjust as necessary
+    $stmt = $pdo->prepare("UPDATE licenses_new SET description = ?, valid_until = ? WHERE id = ?");
+    $stmt->execute([$updated_data['description'], $updated_data['valid_until'], $license_id]);
+    return $stmt->rowCount() > 0;
+}
+
+// Function to fetch license details for editing
+function get_license_details($pdo, $license_id) {
+    $stmt = $pdo->prepare("SELECT * FROM licenses_new WHERE id = ?");
+    $stmt->execute([$license_id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Function to update license details
+function update_license($pdo, $license_id, $license_data) {
+    $stmt = $pdo->prepare("UPDATE licenses_new SET whitelist_id = ?, whitelist_type = ?, description = ?, valid_until = ?, roblox_user_id = ?, max_uses = ?, transferable = ?, custom_tier = ? WHERE id = ?");
+    $result = $stmt->execute([
+        $license_data['whitelist_id'],
+        $license_data['whitelist_type'],
+        $license_data['description'],
+        $license_data['valid_until'],
+        $license_data['roblox_user_id'],
+        $license_data['max_uses'],
+        $license_data['transferable'],
+        $license_data['custom_tier'],
+        $license_id
+    ]);
+    return $result;
+}
+
+// Function to revoke a license
+function revoke_license($pdo, $license_id) {
+    $stmt = $pdo->prepare("UPDATE licenses_new SET is_revoked = 1 WHERE id = ?");
+    return $stmt->execute([$license_id]);
+}
+
+// Ensure all your form handling in license.php uses these functions correctly
+
+// Ensure this file contains the following function or add it if missing
+
+function log_user_action($pdo, $user_id, $action) {
+    // Implementation depends on how you want to log user actions, e.g., writing to a database
+    $stmt = $pdo->prepare("INSERT INTO user_actions (user_id, action) VALUES (?, ?)");
+    $stmt->execute([$user_id, $action]);
+}
+
+function log_user_activity($user_id, $activity) {
+    global $pdo;
+    $stmt = $pdo->prepare("INSERT INTO user_activity_logs (user_id, activity, timestamp) VALUES (?, ?, NOW())");
+    $stmt->execute([$user_id, $activity]);
+}
+
+function detect_anomalies($user_id) {
+    global $pdo;
+    // Fetch recent activities
+    $stmt = $pdo->prepare("SELECT activity FROM user_activity_logs WHERE user_id = ? ORDER BY timestamp DESC LIMIT 100");
+    $stmt->execute([$user_id]);
+    $activities = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    // Simple anomaly detection logic
+    $frequent_activities = array_count_values($activities);
+    foreach ($frequent_activities as $activity => $count) {
+        if ($count < 2) { // If an activity occurs less frequently, it might be an anomaly
+            alert_admin("Possible anomaly detected for user $user_id: $activity");
+        }
+    }
+}
+
+function alert_admin($message) {
+    // Logic to alert the system administrator
+    error_log($message); // Simple logging, replace with more sophisticated alerting mechanism
+}
+
+function run_ml_model($user_id) {
+    $command = escapeshellcmd("python detect_fraud.py $user_id");
+    $output = shell_exec($command);
+    return json_decode($output, true);
 }
 
 ?>

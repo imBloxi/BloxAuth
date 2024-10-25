@@ -1,7 +1,10 @@
 # BloxAuth License Management System
 
 <div align="center">
+Project brought to you by: https://github.com/BloxiAuth team
 
+  ![BloxAuth TEAM](https://i.ibb.co/Ns73jZT/8-Y23-HTU-4-removebg-preview.png)
+  
 [![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue.svg)](https://php.net)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE.md)
 [![Security Rating](https://img.shields.io/badge/Security-A%2B-brightgreen.svg)](https://github.com/imBloxi/BloxAuth)
@@ -93,25 +96,24 @@ $charset = 'utf8mb4';
 ## 🔧 Core Components
 
 ### 👑 Administration Module (`/admin`)
-![Admin Dashboard](https://i.ibb.co/dashboard-preview.jpg)
+
 - Complete management interface
 - Key generation system
 - User management
 
 ### 🔌 API Module (`/api`)
-![API Documentation](https://i.ibb.co/api-preview.jpg)
 - RESTful endpoints
 - Secure validation
 - Usage tracking
 
 ### 📱 Application Module (`/app`)
-![User Dashboard](https://i.ibb.co/user-dashboard.jpg)
+![User Dashboard](https://i.ibb.co/GHGsfgh/8-Y723-G7-UBUI.jpg)
 - User interface
 - License management
 - Profile settings
 
 ### 💳 Billing Module (`/billing`)
-![Payment System](https://i.ibb.co/payment-preview.jpg)
+![Payment System](https://i.ibb.co/D4BM0dW/8Y23HTU.png)
 - Secure payments
 - Multiple gateways
 - Transaction logging

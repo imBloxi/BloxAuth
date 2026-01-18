@@ -21,6 +21,24 @@ define('SESSION_LIFETIME', 3600); // 1 hour
 define('PASSWORD_MIN_LENGTH', 8);
 define('BCRYPT_COST', 12);
 
+// Caching settings
+define('CACHING_ENABLED', true);
+define('CACHE_PROVIDER', 'file'); // Options: 'file', 'redis'
+define('CACHE_DIR', sys_get_temp_dir() . '/bloxauth_cache');
+
+// Cache TTL (Time To Live) in seconds
+define('CACHE_TTL_LICENSE_TYPES', 3600); // 1 hour - rarely changes
+define('CACHE_TTL_USER_PERMISSIONS', 1800); // 30 minutes
+define('CACHE_TTL_CONFIG_VALUES', 3600); // 1 hour
+define('CACHE_TTL_LICENSE_VALIDATION', 600); // 10 minutes - for API validation
+define('CACHE_TTL_USER_DATA', 900); // 15 minutes
+
+// Redis settings (if using Redis as cache provider)
+define('REDIS_HOST', '127.0.0.1');
+define('REDIS_PORT', 6379);
+define('REDIS_PASSWORD', '');
+define('REDIS_DATABASE', 0);
+
 // Anti-bot and anti-spam settings
 define('USE_RECAPTCHA', true);
 define('RECAPTCHA_SITE_KEY', 'your_recaptcha_site_key');

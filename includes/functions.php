@@ -15,9 +15,20 @@ if (!function_exists('redirect_if_not_logged_in')) {
     }
 }
 function fetch_license_types($pdo) {
+    $cache_key = 'license_types_all';
+    $cached = get_cache($cache_key);
+    
+    if ($cached !== null) {
+        return $cached;
+    }
+    
     $stmt = $pdo->prepare("SELECT * FROM license_types ORDER BY name");
     $stmt->execute();
-    return $stmt->fetchAll();
+    $result = $stmt->fetchAll();
+    
+    set_cache($cache_key, $result, CACHE_TTL_LICENSE_TYPES);
+    
+    return $result;
 }
 
 if (!function_exists('create_license')) {
@@ -40,6 +51,11 @@ if (!function_exists('create_license')) {
                 $license_data['custom_tier']
             ]);
             $pdo->commit();
+            
+            // Invalidate user's license cache
+            clear_cache('recent_licenses_' . $license_data['user_id']);
+            clear_cache('user_licenses_' . $license_data['user_id']);
+            
             return ['success' => true, 'license_key' => $license_key];
         } catch (Exception $e) {
             $pdo->rollBack();
@@ -174,9 +190,22 @@ function fetch_api_key($pdo, $user_id) {
 }
 
 function fetch_user_data($pdo, $user_id) {
+    $cache_key = 'user_data_' . $user_id;
+    $cached = get_cache($cache_key);
+    
+    if ($cached !== null) {
+        return $cached;
+    }
+    
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
     $stmt->execute([$user_id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($result) {
+        set_cache($cache_key, $result, CACHE_TTL_USER_DATA);
+    }
+    
+    return $result;
 }
 
 function fetch_recent_licenses($pdo, $user_id, $limit = 5) {
@@ -345,7 +374,7 @@ function check_user_ban_status($pdo, $user_id) {
 function save_license($pdo, $user_id, $license_data) {
     $stmt = $pdo->prepare("INSERT INTO licenses_new (user_id, `key`, whitelist_id, whitelist_type, description, valid_until, roblox_user_id, max_uses, transferable, custom_tier) 
                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    return $stmt->execute([
+    $result = $stmt->execute([
         $user_id,
         $license_data['key'],
         $license_data['whitelist_id'],
@@ -357,6 +386,14 @@ function save_license($pdo, $user_id, $license_data) {
         $license_data['is_transferable'],
         $license_data['custom_tier']
     ]);
+    
+    // Invalidate user's license cache
+    if ($result) {
+        clear_cache('recent_licenses_' . $user_id);
+        clear_cache('user_licenses_' . $user_id);
+    }
+    
+    return $result;
 }
 
 function get_sellix_products($user_id) {
@@ -487,13 +524,26 @@ function update_license($pdo, $license_id, $license_data) {
         $license_data['custom_tier'],
         $license_id
     ]);
+    
+    // Invalidate cache for this license
+    if ($result) {
+        clear_license_cache($license_id);
+    }
+    
     return $result;
 }
 
 // Function to revoke a license
 function revoke_license($pdo, $license_id) {
     $stmt = $pdo->prepare("UPDATE licenses_new SET is_revoked = 1 WHERE id = ?");
-    return $stmt->execute([$license_id]);
+    $result = $stmt->execute([$license_id]);
+    
+    // Invalidate cache for this license
+    if ($result) {
+        clear_license_cache($license_id);
+    }
+    
+    return $result;
 }
 
 // Ensure all your form handling in license.php uses these functions correctly
@@ -537,6 +587,248 @@ function run_ml_model($user_id) {
     $command = escapeshellcmd("python detect_fraud.py $user_id");
     $output = shell_exec($command);
     return json_decode($output, true);
+}
+
+// ============================================================================
+// CACHE HELPER FUNCTIONS
+// ============================================================================
+
+function init_cache() {
+    if (!CACHING_ENABLED) {
+        return true;
+    }
+    
+    if (CACHE_PROVIDER === 'file') {
+        if (!file_exists(CACHE_DIR)) {
+            if (!mkdir(CACHE_DIR, 0755, true)) {
+                error_log('Failed to create cache directory: ' . CACHE_DIR);
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    if (CACHE_PROVIDER === 'redis') {
+        if (!extension_loaded('redis')) {
+            error_log('Redis extension not loaded, falling back to file cache');
+            return false;
+        }
+        return true;
+    }
+    
+    return false;
+}
+
+function get_cache($key) {
+    if (!CACHING_ENABLED) {
+        return null;
+    }
+    
+    if (CACHE_PROVIDER === 'redis') {
+        return get_cache_redis($key);
+    }
+    
+    return get_cache_file($key);
+}
+
+function set_cache($key, $value, $ttl = 3600) {
+    if (!CACHING_ENABLED) {
+        return false;
+    }
+    
+    if (CACHE_PROVIDER === 'redis') {
+        return set_cache_redis($key, $value, $ttl);
+    }
+    
+    return set_cache_file($key, $value, $ttl);
+}
+
+function clear_cache($key = null) {
+    if (!CACHING_ENABLED) {
+        return false;
+    }
+    
+    if (CACHE_PROVIDER === 'redis') {
+        return clear_cache_redis($key);
+    }
+    
+    return clear_cache_file($key);
+}
+
+function get_cache_file($key) {
+    init_cache();
+    $cache_file = CACHE_DIR . '/' . md5($key) . '.cache';
+    
+    if (!file_exists($cache_file)) {
+        return null;
+    }
+    
+    $data = @file_get_contents($cache_file);
+    if ($data === false) {
+        return null;
+    }
+    
+    $cache_data = @unserialize($data);
+    if ($cache_data === false) {
+        unlink($cache_file);
+        return null;
+    }
+    
+    if (time() > $cache_data['expires']) {
+        unlink($cache_file);
+        return null;
+    }
+    
+    return $cache_data['value'];
+}
+
+function set_cache_file($key, $value, $ttl = 3600) {
+    init_cache();
+    $cache_file = CACHE_DIR . '/' . md5($key) . '.cache';
+    
+    $cache_data = [
+        'value' => $value,
+        'expires' => time() + $ttl,
+        'created' => time()
+    ];
+    
+    $data = serialize($cache_data);
+    $result = @file_put_contents($cache_file, $data, LOCK_EX);
+    
+    if ($result === false) {
+        error_log('Failed to write cache file: ' . $cache_file);
+        return false;
+    }
+    
+    return true;
+}
+
+function clear_cache_file($key = null) {
+    init_cache();
+    
+    if ($key === null) {
+        $files = glob(CACHE_DIR . '/*.cache');
+        foreach ($files as $file) {
+            @unlink($file);
+        }
+        return true;
+    }
+    
+    $cache_file = CACHE_DIR . '/' . md5($key) . '.cache';
+    if (file_exists($cache_file)) {
+        return @unlink($cache_file);
+    }
+    
+    return true;
+}
+
+function get_cache_redis($key) {
+    try {
+        $redis = get_redis_connection();
+        if (!$redis) {
+            return null;
+        }
+        
+        $value = $redis->get($key);
+        if ($value === false) {
+            return null;
+        }
+        
+        return unserialize($value);
+    } catch (Exception $e) {
+        error_log('Redis get error: ' . $e->getMessage());
+        return null;
+    }
+}
+
+function set_cache_redis($key, $value, $ttl = 3600) {
+    try {
+        $redis = get_redis_connection();
+        if (!$redis) {
+            return false;
+        }
+        
+        $data = serialize($value);
+        return $redis->setex($key, $ttl, $data);
+    } catch (Exception $e) {
+        error_log('Redis set error: ' . $e->getMessage());
+        return false;
+    }
+}
+
+function clear_cache_redis($key = null) {
+    try {
+        $redis = get_redis_connection();
+        if (!$redis) {
+            return false;
+        }
+        
+        if ($key === null) {
+            return $redis->flushDB();
+        }
+        
+        return $redis->del($key) > 0;
+    } catch (Exception $e) {
+        error_log('Redis clear error: ' . $e->getMessage());
+        return false;
+    }
+}
+
+function get_redis_connection() {
+    static $redis = null;
+    
+    if ($redis !== null) {
+        return $redis;
+    }
+    
+    if (!extension_loaded('redis')) {
+        return null;
+    }
+    
+    try {
+        $redis = new Redis();
+        $redis->connect(REDIS_HOST, REDIS_PORT);
+        
+        if (!empty(REDIS_PASSWORD)) {
+            $redis->auth(REDIS_PASSWORD);
+        }
+        
+        if (REDIS_DATABASE > 0) {
+            $redis->select(REDIS_DATABASE);
+        }
+        
+        return $redis;
+    } catch (Exception $e) {
+        error_log('Redis connection error: ' . $e->getMessage());
+        return null;
+    }
+}
+
+function clear_license_cache($license_id = null) {
+    if ($license_id) {
+        clear_cache('license_' . $license_id);
+        clear_cache('license_validation_' . $license_id);
+    } else {
+        if (CACHE_PROVIDER === 'file') {
+            init_cache();
+            $files = glob(CACHE_DIR . '/*.cache');
+            foreach ($files as $file) {
+                $basename = basename($file);
+                if (strpos($basename, 'license_') !== false) {
+                    @unlink($file);
+                }
+            }
+        } else {
+            $redis = get_redis_connection();
+            if ($redis) {
+                $keys = $redis->keys('license_*');
+                if (!empty($keys)) {
+                    $redis->del($keys);
+                }
+            }
+        }
+    }
+    return true;
 }
 
 ?>

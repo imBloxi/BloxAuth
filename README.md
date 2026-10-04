@@ -1,190 +1,107 @@
-# BloxAuth License Management System
+# BloxAuth
 
-<div align="center">
-Project brought to you by: https://github.com/BloxiAuth team
+An open-source license management and purchasing system for Roblox game developers, written in PHP and MySQL. Developers issue license keys, bind them to Roblox users or places, validate them from in-game scripts and track usage.
 
-  ![BloxAuth TEAM](https://i.ibb.co/Ns73jZT/8-Y23-HTU-4-removebg-preview.png)
-  
-[![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue.svg)](https://php.net)
-[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE.md)
-[![Security Rating](https://img.shields.io/badge/Security-A%2B-brightgreen.svg)](https://github.com/imBloxi/BloxAuth)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/imBloxi/BloxAuth/graphs/commit-activity)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/imBloxi/BloxAuth/pulls)
-[![Discord](https://img.shields.io/discord/1234567890?color=7289da&label=Discord&logo=discord&logoColor=white)](https://discord.gg/bloxauth)
+![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-green)
+![PHP](https://img.shields.io/badge/PHP-7.4%2B-blue)
+![MySQL](https://img.shields.io/badge/MySQL-5.7%2B-orange)
 
-![BloxAuth Logo](https://i.ibb.co/GHGsfgh/8-Y723-G7-UBUI.jpg)
+## What it does
 
-**A robust PHP-based license management system designed specifically for Roblox game developers**
+- **License keys:** generate keys through an authenticated API or the admin panel, with optional expiry, use limits, transferability and custom tiers
+- **Validation API:** check a key against a Roblox user ID and place ID from a Lua script (`api/lua.lua` is an example client)
+- **User dashboard (`/app`):** license management, settings, notifications, staff and moderation tools, application review
+- **Accounts (`/auth`):** registration, login, Roblox account linking, two-factor authentication, passkey updates, Discord linking
+- **Billing (`/billing`) and Sellix:** plan selection, payment verification, Sellix product sync and webhook handler
+- **Script obfuscation (`/obfuscate`):** upload and process scripts from the dashboard
+- **Logging:** validation attempts, logins, moderation actions and user activity are written to database tables
+- **Roblox lookups:** a small Node proxy (`api/proxy.js`) for public place and group details
 
-[View Demo](https://demo.bloxauth.com) · [Report Bug](https://github.com/imBloxi/BloxAuth/issues) · [Request Feature](https://github.com/imBloxi/BloxAuth/issues)
+## Requirements
 
-</div>
-
-## 🌟 Features
-
-[![Feature Overview](https://img.shields.io/badge/Features-Overview-blue.svg)](#features)
-
-- 🔒 **Secure License Management**
-  - HMAC-based key generation
-  - Real-time validation
-  - IP protection
-  
-- 🔐 **Advanced Authentication**
-  - Two-factor authentication
-  - Discord integration
-  - Role-based access
-
-- ⚡ **Performance**
-  - Fast validation
-  - Optimized queries
-  - Caching system
-
-- 📊 **Analytics**
-  - Usage tracking
-  - Real-time stats
-  - Export capabilities
-
-![BloxAuth Logo](https://i.ibb.co/9vDNBzf/bloxauth.jpg)
-## 📋 Project Structure
-
-```
-bloxauth/
-├── .idea/
-├── admin/
-│   ├── index.php
-│   └── issue_keys.php
-├── api/
-│   ├── .htaccess
-│   ├── api.php
-│   ├── error_log/
-│   ├── generate_license.php
-[... structure continues as before ...]
-```
-
-## 💻 System Requirements
-
-[![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue.svg)](https://php.net)
-[![MySQL](https://img.shields.io/badge/MySQL-5.7%2B-orange.svg)](https://www.mysql.com)
-[![MariaDB](https://img.shields.io/badge/MariaDB-10.2%2B-brown.svg)](https://mariadb.org)
-
-- PHP 7.4 or higher
+- PHP 7.4 or later with PDO and JSON
 - MySQL 5.7+ or MariaDB 10.2+
-- Apache with mod_rewrite enabled
-- PDO PHP Extension
-- JSON PHP Extension
+- Apache with `mod_rewrite`
+- Node.js, only for the optional proxy and obfuscation module
 
-## ⚙️ Installation
+## Installation
 
-1. **Clone the Repository**
 ```bash
 git clone https://github.com/imBloxi/BloxAuth.git
+cd BloxAuth
 ```
 
-2. **Configure Database**
-```php
-// includes/config.php
-<?php
-$host = 'localhost';
-$db = 'roblox_licensing';
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
-[... configuration continues ...]
-?>
-```
+1. Create a database and import the schema: `mysql -u <user> -p <database> < db.sql`
+2. Set the database connection with environment variables (`includes/db.php` reads `DB_HOST`, `DB_NAME`, `DB_USER` and `DB_PASS`, with local defaults).
+3. Edit `includes/config.php`: set your domain, SMTP settings, captcha keys and API keys. The file ships with placeholder values. Replace all of them and never commit real secrets.
+4. Point your web server at the project root and register the first account at `/auth/register.php`.
+5. After logging in, `/app/setup_app.php` asks for your app name and category.
+6. Optional: `cd api && npm install && node proxy.js` for the Roblox proxy.
 
-## 🔧 Core Components
+## API
 
-### 👑 Administration Module (`/admin`)
+All responses are JSON.
 
-- Complete management interface
-- Key generation system
-- User management
+### Generate a license
 
-### 🔌 API Module (`/api`)
-- RESTful endpoints
-- Secure validation
-- Usage tracking
-
-### 📱 Application Module (`/app`)
-![User Dashboard](https://i.ibb.co/GHGsfgh/8-Y723-G7-UBUI.jpg)
-- User interface
-- License management
-- Profile settings
-
-### 💳 Billing Module (`/billing`)
-![Payment System](https://i.ibb.co/D4BM0dW/8Y23HTU.png)
-- Secure payments
-- Multiple gateways
-- Transaction logging
-
-## 🔒 Security Features
-
-[![Security Rating](https://img.shields.io/badge/Security-A%2B-brightgreen.svg)](https://github.com/imBloxi/BloxAuth)
-
-1. **API Security**
-   - Rate limiting
-   - Request validation
-   - IP protection
-
-2. **User Authentication**
-   - 2FA support
-   - Session management
-   - Secure passwords
-
-## 📚 API Documentation
-
-### License Validation
 ```http
-POST /api/validate_key.php
+POST /api/generate_license.php
+X-API-Key: <your api key>
 Content-Type: application/json
 
 {
-    "license_key": "XXXX-XXXX-XXXX-XXXX",
-    "roblox_id": "12345678",
-    "place_id": "87654321"
+  "roblox_user_id": "12345678",
+  "valid_until": "2027-01-01",
+  "max_uses": 5,
+  "description": "Pro tier"
 }
 ```
 
-## 🤝 Contributing
+Returns the new key. Requests without a valid `X-API-Key` get `401`.
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/imBloxi/BloxAuth/pulls)
+### Validate a license
 
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a pull request
+```http
+POST /api/validate_key.php
+Content-Type: application/x-www-form-urlencoded
 
-## 📄 License
+license_key=XXXX-XXXX-XXXX-XXXX&roblox_id=12345678&place_id=87654321
+```
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE.md)
+Returns `{"status":"success"}` or `{"status":"failure","message":"..."}`. Each successful check is added to the usage log.
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE.md](LICENSE.md) file for details.
+## Project structure
 
-## 🌟 Acknowledgements
+```
+admin/     admin panel and key issuing
+api/       license generation, validation, whitelist, usage, Sellix webhook, Lua client, Node proxy
+app/       user dashboard, settings, 2FA, Discord linking, staff and moderation tools
+auth/      register, login, logout, Roblox linking
+billing/   plans, payments, verification
+obfuscate/ script obfuscation
+includes/  database, config, shared functions, layout
+db.sql     database schema
+```
 
-- [Sellix.io](https://sellix.io) for payment processing
-- [Discord](https://discord.com) for community features
-- [Roblox](https://roblox.com) for game platform integration
+## Security notes and known limitations
 
-## 📞 Support
+This project was built as a team learning project. Review it before using it in production:
 
-[![Discord](https://img.shields.io/discord/1234567890?color=7289da&label=Discord&logo=discord&logoColor=white)](https://discord.gg/bloxauth)
+- `api/validate_key.php` does not apply the rate limit settings defined in `includes/config.php`. Add throttling per IP and per key.
+- The Sellix webhook handler picks the signing secret using a user ID taken from the request payload. Verify the signature against a server-side secret before trusting any field.
+- Escape every session or user value that is printed into HTML (for example in `app/verify_2fa.php`).
+- Keep `error_log` files, IDE folders and credentials out of version control.
 
-Having troubles? Get help:
-- Join our [Discord server](https://discord.gg/bloxauth)
-- Open an [Issue](https://github.com/imBloxi/BloxAuth/issues)
-- Check our [Wiki](https://github.com/imBloxi/BloxAuth/wiki)
+To report a vulnerability, open a GitHub issue without exploit details and ask for a private contact.
 
-## 📈 Statistics
+## Credits
 
-[![GitHub Stars](https://img.shields.io/github/stars/imBloxi/BloxAuth.svg)](https://github.com/imBloxi/BloxAuth/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/imBloxi/BloxAuth.svg)](https://github.com/imBloxi/BloxAuth/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/imBloxi/BloxAuth.svg)](https://github.com/imBloxi/BloxAuth/pulls)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/imBloxi/BloxAuth.svg)](https://github.com/imBloxi/BloxAuth/commits/main)
+Built by the BloxiAuth team. Payment processing by [Sellix](https://sellix.io).
 
----
-<div align="center">
-Made with ❤️ by BloxAuth Team
-</div>
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+Apache 2.0, see [LICENSE](LICENSE).

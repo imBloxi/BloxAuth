@@ -11,7 +11,7 @@
         <ul>
             <li><a href="../app/dashboard.php">Dashboard</a></li>
             <li><a href="../app/license.php">Licenses</a></li>
-            <li><a href="../app/billing.php">Billing</a></li>
+            <li><a href="../billing/index.php">Billing</a></li>
             <li><a href="../auth/logout.php">Logout</a></li>
         </ul>
     </nav>

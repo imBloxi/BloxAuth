@@ -1,84 +1,54 @@
 <?php
-session_start();
-require '../../includes/db.php';
-require '../../includes/functions.php';
+// Sign in (or sign up) with Discord.
+require_once '../../includes/config.php';
 
-// Discord OAuth2 configuration
-$discord_client_id = 'YOUR_DISCORD_CLIENT_ID';
-$discord_client_secret = 'YOUR_DISCORD_CLIENT_SECRET';
-$discord_redirect_uri = 'https://your-domain.com/auth/api/call_request.php';
+$redirect_uri = absolute_url('/auth/api/call_request.php');
 
-if (isset($_GET['code'])) {
-    // Exchange code for access token
-    $token_url = 'https://discord.com/api/oauth2/token';
-    $token_data = array(
-        "client_id" => $discord_client_id,
-        "client_secret" => $discord_client_secret,
-        "grant_type" => "authorization_code",
-        "code" => $_GET['code'],
-        "redirect_uri" => $discord_redirect_uri
-    );
+$fail = function ($message) {
+    $_SESSION['error'] = $message;
+    redirect('/auth/login.php');
+};
 
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => $token_url,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($token_data),
-        CURLOPT_RETURNTRANSFER => true
-    ));
-
-    $response = curl_exec($curl);
-    curl_close($curl);
-    $result = json_decode($response, true);
-
-    if (isset($result['access_token'])) {
-        // Get user info
-        $user_url = 'https://discord.com/api/users/@me';
-        $header = array("Authorization: Bearer {$result['access_token']}");
-
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $user_url,
-            CURLOPT_HTTPHEADER => $header,
-            CURLOPT_RETURNTRANSFER => true
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-        $user_info = json_decode($response, true);
-
-        if (isset($user_info['id'])) {
-            // Check if user exists
-            $stmt = $pdo->prepare("SELECT * FROM users WHERE discord_id = ?");
-            $stmt->execute([$user_info['id']]);
-            $user = $stmt->fetch();
-
-            if ($user) {
-                // User exists, log them in
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                header('Location: ../../app/dashboard.php');
-                exit();
-            } else {
-                // New user, register them
-                $username = $user_info['username'] . '#' . $user_info['discriminator'];
-                $email = $user_info['email'] ?? null;
-                $discord_id = $user_info['id'];
-
-                $stmt = $pdo->prepare("INSERT INTO users (username, email, discord_id, discord_username) VALUES (?, ?, ?, ?)");
-                $stmt->execute([$username, $email, $discord_id, $username]);
-
-                $user_id = $pdo->lastInsertId();
-                $_SESSION['user_id'] = $user_id;
-                $_SESSION['username'] = $username;
-                header('Location: ../../app/dashboard.php');
-                exit();
-            }
-        }
-    }
+if (DISCORD_CLIENT_ID === '' || DISCORD_CLIENT_SECRET === '') {
+    $fail('Discord sign-in is not configured on this server.');
 }
 
-// If we get here, something went wrong
-$_SESSION['error'] = 'Failed to authenticate with Discord';
-header('Location: ../login.php');
-exit();
+if (!isset($_GET['code'])) {
+    oauth_redirect('https://discord.com/api/oauth2/authorize', [
+        'client_id' => DISCORD_CLIENT_ID,
+        'redirect_uri' => $redirect_uri,
+        'response_type' => 'code',
+        'scope' => 'identify email',
+    ], 'discord_login_state');
+}
+
+if (!oauth_state_ok('discord_login_state')) {
+    $fail('Failed to authenticate with Discord');
+}
+
+$access_token = oauth_exchange_code('https://discord.com/api/oauth2/token', [
+    'client_id' => DISCORD_CLIENT_ID,
+    'client_secret' => DISCORD_CLIENT_SECRET,
+    'code' => $_GET['code'],
+    'redirect_uri' => $redirect_uri,
+]);
+$discord_user = $access_token ? http_get_json('https://discord.com/api/users/@me', $access_token) : null;
+
+if (empty($discord_user['id'])) {
+    $fail('Failed to authenticate with Discord');
+}
+
+$stmt = $pdo->prepare("SELECT id, username FROM users WHERE discord_id = ? AND is_deleted = 0");
+$stmt->execute([$discord_user['id']]);
+$user = $stmt->fetch();
+
+if (!$user) {
+    $username = discord_display_name($discord_user);
+    // Discord accounts sign in through Discord, so the local password is random and unusable.
+    $pdo->prepare("INSERT INTO users (username, email, password, discord_id, discord_username) VALUES (?, ?, ?, ?, ?)")
+        ->execute([$username, $discord_user['email'] ?? '', password_hash(bin2hex(random_bytes(32)), PASSWORD_DEFAULT), $discord_user['id'], $username]);
+    $user = ['id' => (int) $pdo->lastInsertId(), 'username' => $username];
+}
+
+login_user($user['id'], $user['username']);
+redirect('/app/dashboard.php');

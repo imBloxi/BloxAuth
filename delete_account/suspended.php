@@ -1,21 +1,16 @@
 <?php
-session_start();
-require '../includes/db.php';
+require_once '../includes/config.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../auth/login.php');
-    exit();
+if (!is_user_logged_in()) {
+    redirect('/auth/login.php');
 }
 
-// Fetch user details and suspension reason
 $stmt = $pdo->prepare('SELECT username, is_banned, ban_reason FROM users WHERE id = ?');
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
-// Check if the user is actually banned
 if (!$user['is_banned']) {
-    header('Location: ../app/dashboard.php');
-    exit();
+    redirect('/app/dashboard.php');
 }
 ?>
 <!DOCTYPE html>
@@ -46,7 +41,7 @@ if (!$user['is_banned']) {
             
             <div class="mb-8 p-4 bg-red-900 bg-opacity-20 border border-red-700 rounded-lg">
                 <p class="text-lg text-center">
-                    Hello <span class="font-semibold"><?= htmlspecialchars($user['username']) ?></span>, your account has been suspended.
+                    Hello <span class="font-semibold"><?= e($user['username']) ?></span>, your account has been suspended.
                 </p>
             </div>
             
@@ -54,7 +49,7 @@ if (!$user['is_banned']) {
                 <div>
                     <h2 class="text-xl font-semibold mb-2">Suspension Details</h2>
                     <p class="text-gray-300">
-                        <strong>Reason:</strong> <?= htmlspecialchars($user['ban_reason']) ?>
+                        <strong>Reason:</strong> <?= e($user['ban_reason']) ?>
                     </p>
                 </div>
                 

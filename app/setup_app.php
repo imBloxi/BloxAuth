@@ -18,9 +18,12 @@ $error_message = '';
 $success_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $app_name = trim($_POST['app_name']);
-    $app_description = trim($_POST['app_description']);
-    $app_category = $_POST['app_category'];
+    $app_name = trim($_POST['app_name'] ?? '');
+    $app_description = trim($_POST['app_description'] ?? '');
+    $app_category = $_POST['app_category'] ?? '';
+    if (!in_array($app_category, ['', 'productivity', 'entertainment', 'education', 'lifestyle', 'other'], true)) {
+        $app_category = 'other';
+    }
 
     if (empty($app_name)) {
         $error_message = "App Name is required.";
@@ -28,25 +31,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         try {
             $pdo->beginTransaction();
 
-            $app_name = htmlspecialchars($app_name, ENT_QUOTES, 'UTF-8');
-            $app_description = htmlspecialchars($app_description, ENT_QUOTES, 'UTF-8');
             $seller_id = bin2hex(random_bytes(8));
 
             $stmt = $pdo->prepare('UPDATE users SET app_name = ?, app_description = ?, app_category = ?, seller_id = ? WHERE id = ?');
             $stmt->execute([$app_name, $app_description, $app_category, $seller_id, $user_id]);
 
             // Generate initial API key
-            $api_key = bin2hex(random_bytes(16));
-            $stmt = $pdo->prepare('INSERT INTO api_keys (user_id, api_key) VALUES (?, ?)');
-            $stmt->execute([$user_id, $api_key]);
+            if (!fetch_api_key($pdo, $user_id)) {
+                $stmt = $pdo->prepare('INSERT INTO api_keys (user_id, api_key) VALUES (?, ?)');
+                $stmt->execute([$user_id, bin2hex(random_bytes(16))]);
+            }
 
             $pdo->commit();
 
-            $success_message = "App setup completed successfully!";
-            header("Refresh: 2; URL=dashboard.php");
+            log_user_activity($user_id, 'Set up app ' . $app_name);
+            redirect('/app/dashboard.php');
         } catch (PDOException $e) {
             $pdo->rollBack();
-            $error_message = "Setup failed: " . $e->getMessage();
+            error_log('App setup failed: ' . $e->getMessage());
+            $error_message = "Setup failed. Please try again.";
         }
     }
 }
@@ -56,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Set Up Your App - <?php echo APP_NAME; ?></title>
+    <title>Set Up Your App - <?php echo e(APP_NAME); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.2/dist/cdn.min.js" defer></script>
 </head>
@@ -73,12 +76,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <?php if ($error_message): ?>
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <span class="block sm:inline"><?php echo htmlspecialchars($error_message); ?></span>
+                    <span class="block sm:inline"><?php echo e($error_message); ?></span>
                 </div>
             <?php endif; ?>
             <?php if ($success_message): ?>
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                    <span class="block sm:inline"><?php echo htmlspecialchars($success_message); ?></span>
+                    <span class="block sm:inline"><?php echo e($success_message); ?></span>
                 </div>
             <?php endif; ?>
             <form class="mt-8 space-y-6" action="setup_app.php" method="POST">

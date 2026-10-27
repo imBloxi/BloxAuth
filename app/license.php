@@ -3,153 +3,118 @@ require_once '../includes/config.php';
 redirect_if_not_logged_in();
 
 $user_id = $_SESSION['user_id'];
-$api_key = fetch_api_key($pdo, $user_id);
 
-// Fetch user info
-$stmt = $pdo->prepare("SELECT credits, two_fa_enabled, discord_username, discord_webhook_url FROM users WHERE id = ?");
+$stmt = $pdo->prepare("SELECT discord_webhook_url, notify_on_new_license FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
-$user_info = $stmt->fetch(PDO::FETCH_ASSOC);
+$user_info = $stmt->fetch();
 
-// Function to create a custom tier
-function create_custom_tier($pdo, $user_id, $tier_name, $tier_benefits) {
-    $stmt = $pdo->prepare("INSERT INTO custom_tiers (user_id, tier_name, tier_benefits) VALUES (?, ?, ?)");
-    return $stmt->execute([$user_id, $tier_name, $tier_benefits]);
-}
-
-// Function to fetch custom tiers
-function fetch_custom_tiers($pdo, $user_id) {
-    $stmt = $pdo->prepare("SELECT * FROM custom_tiers WHERE user_id = ?");
-    $stmt->execute([$user_id]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Function to send Discord webhook
+// Post a "new license" message to the user's Discord webhook.
 function send_discord_webhook($webhook_url, $license_key, $tier) {
-    $data = [
-        "content" => "New license created: $license_key",
-        "embeds" => [
-            [
-                "title" => "License Details",
-                "description" => "A new license has been issued.",
-                "fields" => [
-                    ["name" => "License Key", "value" => $license_key, "inline" => true],
-                    ["name" => "Tier", "value" => $tier, "inline" => true]
+    if (!preg_match('#^https://(discord\.com|discordapp\.com)/api/webhooks/#', (string) $webhook_url)) {
+        return;
+    }
+    $ch = curl_init($webhook_url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_TIMEOUT => 5,
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+        CURLOPT_POSTFIELDS => json_encode([
+            'content' => "New license created: $license_key",
+            'embeds' => [[
+                'title' => 'License Details',
+                'description' => 'A new license has been issued.',
+                'fields' => [
+                    ['name' => 'License Key', 'value' => $license_key, 'inline' => true],
+                    ['name' => 'Tier', 'value' => $tier ?: 'None', 'inline' => true],
                 ],
-                "color" => 5814783
-            ]
-        ]
-    ];
-
-    $options = [
-        'http' => [
-            'header'  => "Content-type: application/json\r\n",
-            'method'  => 'POST',
-            'content' => json_encode($data)
-        ]
-    ];
-
-    $context = stream_context_create($options);
-    $result = file_get_contents($webhook_url, false, $context);
-    if ($result === FALSE) {
-        error_log("Failed to send Discord webhook.");
+                'color' => 5814783,
+            ]],
+        ]),
+    ]);
+    if (curl_exec($ch) === false) {
+        error_log('Failed to send Discord webhook: ' . curl_error($ch));
     }
+    curl_close($ch);
 }
 
-// Function to renew a license
-function renew_license($pdo, $user_id, $license_id, $new_valid_until) {
-    $stmt = $pdo->prepare("UPDATE licenses_new SET valid_until = ? WHERE id = ? AND user_id = ?");
-    $stmt->execute([$new_valid_until, $license_id, $user_id]);
-
-    if ($stmt->rowCount() > 0) {
-        $_SESSION['message'] = "License renewed successfully.";
-    } else {
-        $_SESSION['error'] = "Failed to renew license. Please ensure the license exists and belongs to you.";
-    }
-}
-
-// Function to create a license
-function create_license($pdo, $user_id, $roblox_user_id, $description, $valid_until) {
-    $stmt = $pdo->prepare("INSERT INTO licenses_new (user_id, roblox_user_id, description, valid_until, whitelist_type) VALUES (?, ?, ?, ?, 'user')");
-    return $stmt->execute([$user_id, $roblox_user_id, $description, $valid_until]);
-}
-
-// Handle license actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['create_license'])) {
-        $roblox_user_id = $_POST['roblox_user_id'];
-        $description = $_POST['description'] ?? '';
-        $valid_until = $_POST['valid_until'] ?? null;
+    $license_id = $_POST['license_id'] ?? null;
 
-        if (!is_numeric($roblox_user_id)) {
-            $_SESSION['error_message'] = "Invalid Roblox USER ID provided.";
+    if (isset($_POST['create_license'])) {
+        $type = $_POST['whitelist_type'] ?? 'user';
+        $roblox_user_id = trim($_POST['roblox_user_id'] ?? '');
+        $whitelist_id = trim($_POST['whitelist_id'] ?? '');
+
+        if ($type === 'user' && !ctype_digit($roblox_user_id)) {
+            $_SESSION['error_message'] = "Invalid Roblox User ID provided.";
+        } elseif ($type !== 'user' && !ctype_digit($whitelist_id)) {
+            $_SESSION['error_message'] = "Enter the numeric " . ($type === 'group' ? 'group' : 'place') . " ID.";
         } else {
-            if (create_license($pdo, $user_id, $roblox_user_id, $description, $valid_until)) {
-                $_SESSION['success_message'] = "License created successfully.";
+            $result = create_license($pdo, $user_id, [
+                'whitelist_type' => $type,
+                'whitelist_id' => $type === 'user' ? $roblox_user_id : $whitelist_id,
+                'roblox_user_id' => $type === 'user' ? $roblox_user_id : null,
+                'description' => $_POST['description'] ?? '',
+                'valid_until' => $_POST['valid_until'] ?? null,
+                'max_uses' => $_POST['max_uses'] ?? null,
+                'custom_tier' => $_POST['custom_tier'] ?? null,
+                'webhook_url' => $_POST['webhook_url'] ?? null,
+                'transferable' => isset($_POST['transferable']),
+            ]);
+            if ($result['success']) {
+                $_SESSION['success_message'] = "License created: " . $result['license_key'];
+                log_user_activity($user_id, 'Created license ' . $result['license_key']);
+                if ($user_info['notify_on_new_license'] && $user_info['discord_webhook_url']) {
+                    send_discord_webhook($user_info['discord_webhook_url'], $result['license_key'], $_POST['custom_tier'] ?? '');
+                }
             } else {
-                $_SESSION['error_message'] = "Failed to create license.";
+                $_SESSION['error_message'] = $result['error'];
             }
         }
-    } elseif (isset($_POST['create_custom_tier'])) {
-        $tier_name = $_POST['tier_name'];
-        $tier_benefits = $_POST['tier_benefits'];
-        if (create_custom_tier($pdo, $user_id, $tier_name, $tier_benefits)) {
-            $_SESSION['message'] = "Custom tier created successfully.";
+    } elseif (isset($_POST['edit_license'])) {
+        $data = $_POST;
+        $data['transferable'] = isset($_POST['transferable']);
+        if (edit_license($pdo, $user_id, $license_id, $data) || get_license_details($pdo, $license_id, $user_id)) {
+            $_SESSION['success_message'] = "License updated.";
         } else {
-            $_SESSION['error'] = "Failed to create custom tier.";
+            $_SESSION['error_message'] = "License not found.";
         }
+    } elseif (isset($_POST['revoke_license'])) {
+        $ok = revoke_license($pdo, $user_id, $license_id);
+        $_SESSION[$ok ? 'success_message' : 'error_message'] = $ok ? "License revoked." : "License not found.";
     } elseif (isset($_POST['delete_license'])) {
-        delete_license($pdo, $user_id, $_POST['license_id']);
+        $ok = delete_license($pdo, $user_id, $license_id);
+        $_SESSION[$ok ? 'success_message' : 'error_message'] = $ok ? "License deleted." : "License not found.";
     } elseif (isset($_POST['ban_license'])) {
-        $response = apiRequest('index.php?type=ban', 'POST', [
-            'license_id' => $_POST['license_id'],
-            'ban_reason' => $_POST['ban_reason']
-        ]);
-
-        if ($response['success']) {
-            $_SESSION['message'] = "License banned successfully.";
-        } else {
-            $_SESSION['error'] = "Failed to ban license.";
+        $ok = ban_license($pdo, $user_id, $license_id, $_POST['ban_reason'] ?? '');
+        $_SESSION[$ok ? 'success_message' : 'error_message'] = $ok ? "License banned." : "Failed to ban license.";
+    } elseif (isset($_POST['renew_license'])) {
+        $ok = renew_license($pdo, $user_id, $license_id, $_POST['new_valid_until'] ?? null);
+        $_SESSION[$ok ? 'success_message' : 'error_message'] = $ok ? "License renewed." : "Failed to renew license.";
+        if ($ok) {
+            log_user_activity($user_id, "Renewed license ID: $license_id");
         }
     } elseif (isset($_POST['bulk_action'])) {
-        handle_bulk_action($pdo, $user_id, $_POST['license_ids'], $_POST['bulk_action']);
-    } elseif (isset($_POST['renew_license'])) {
-        $license_id = $_POST['license_id'];
-        $new_valid_until = $_POST['new_valid_until'];
-        renew_license($pdo, $user_id, $license_id, $new_valid_until);
-        log_user_action($pdo, $user_id, "Renewed license ID: $license_id");
+        $count = handle_bulk_action($pdo, $user_id, $_POST['license_ids'] ?? [], $_POST['bulk_action']);
+        $_SESSION['success_message'] = "$count license(s) updated.";
+    } elseif (isset($_POST['create_custom_tier'])) {
+        $ok = trim($_POST['tier_name'] ?? '') !== '' && create_custom_tier($pdo, $user_id, trim($_POST['tier_name']), $_POST['tier_benefits'] ?? '');
+        $_SESSION[$ok ? 'success_message' : 'error_message'] = $ok ? "Custom tier created." : "Failed to create custom tier.";
     }
+
+    redirect('/app/license.php');
 }
 
-// Fetch licenses and custom tiers
 $licenses = fetch_licenses($pdo, $user_id, $_GET);
 $custom_tiers = fetch_custom_tiers($pdo, $user_id);
+$success_message = flash('success_message');
+$error_message = flash('error_message');
 
-// Function to fetch license logs
-function getLicenseLogs($license_id, $pdo) {
-    $stmt = $pdo->prepare("SELECT * FROM license_logs WHERE license_id = ? ORDER BY timestamp DESC LIMIT 10");
-    $stmt->execute([$license_id]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Value for <input type="datetime-local">
+function datetime_local($value) {
+    return $value ? date('Y-m-d\TH:i', strtotime($value)) : '';
 }
-
-function apiRequest($endpoint, $method, $data) {
-    $apiUrl = APP_URL . '/api/v1/licenses/' . $endpoint;
-    $apiKey = API_KEY; // Assume API_KEY is defined in config.php
-
-    $options = [
-        'http' => [
-            'header'  => "Content-Type: application/json\r\nAuthorization: Bearer $apiKey\r\n",
-            'method'  => $method,
-            'content' => json_encode($data)
-        ]
-    ];
-
-    $context = stream_context_create($options);
-    $result = file_get_contents($apiUrl, false, $context);
-    if ($result === FALSE) { /* Handle error */ }
-
-    return json_decode($result, true);
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -157,7 +122,7 @@ function apiRequest($endpoint, $method, $data) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>License Management - <?php echo APP_NAME; ?></title>
+    <title>License Management - <?php echo e(APP_NAME); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.2/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -173,15 +138,15 @@ function apiRequest($endpoint, $method, $data) {
         </header>
 
         <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            <?php if (isset($_SESSION['success_message'])): ?>
+            <?php if ($success_message): ?>
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
-                    <p><?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?></p>
+                    <p><?php echo e($success_message); ?></p>
                 </div>
             <?php endif; ?>
 
-            <?php if (isset($_SESSION['error_message'])): ?>
+            <?php if ($error_message): ?>
                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
-                    <p><?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?></p>
+                    <p><?php echo e($error_message); ?></p>
                 </div>
             <?php endif; ?>
 
@@ -190,7 +155,7 @@ function apiRequest($endpoint, $method, $data) {
                     Create New License
                 </button>
                 <form action="" method="get" class="flex">
-                    <input type="text" name="search" placeholder="Search licenses" class="rounded-l-md border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white px-3 py-2">
+                    <input type="text" name="search" value="<?php echo e($_GET['search'] ?? ''); ?>" placeholder="Search licenses" class="rounded-l-md border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white px-3 py-2">
                     <select name="whitelist_type" class="border-t border-b border-gray-200 bg-white px-3 py-2">
                         <option value="">All Types</option>
                         <option value="user">User</option>
@@ -209,21 +174,26 @@ function apiRequest($endpoint, $method, $data) {
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valid Until</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <?php foreach ($licenses as $license): ?>
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?php echo htmlspecialchars($license['key']); ?></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo htmlspecialchars($license['whitelist_type']); ?></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo htmlspecialchars($license['description']); ?></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $license['valid_until']; ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?php echo e($license['key']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo e($license['whitelist_type']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo e($license['description']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo e($license['valid_until'] ?? 'Never'); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo e(license_status($license)); ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button @click="currentLicense = <?php echo htmlspecialchars(json_encode($license)); ?>; showEditModal = true" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</button>
+                                    <button @click="currentLicense = <?php echo e(json_encode($license + ['valid_until_input' => datetime_local($license['valid_until'])])); ?>; showEditModal = true" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</button>
                                     <form method="post" class="inline">
-                                        <input type="hidden" name="license_id" value="<?php echo $license['id']; ?>">
-                                        <button type="submit" name="revoke_license" class="text-red-600 hover:text-red-900">Revoke</button>
+                                        <input type="hidden" name="license_id" value="<?php echo (int) $license['id']; ?>">
+                                        <?php if (!$license['is_revoked']): ?>
+                                        <button type="submit" name="revoke_license" class="text-red-600 hover:text-red-900 mr-2">Revoke</button>
+                                        <?php endif; ?>
+                                        <button type="submit" name="delete_license" onclick="return confirm('Delete this license permanently?')" class="text-gray-600 hover:text-gray-900">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -251,8 +221,8 @@ function apiRequest($endpoint, $method, $data) {
                             </select>
                         </div>
                         <div class="mb-4">
-                            <label for="whitelist_id" class="block text-sm font-medium text-gray-700">Roblox User ID</label>
-                            <input type="text" name="roblox_user_id" id="whitelist_id" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <label for="whitelist_id" class="block text-sm font-medium text-gray-700">Group or Place ID (for group and place licenses)</label>
+                            <input type="text" name="whitelist_id" id="whitelist_id" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
@@ -263,8 +233,8 @@ function apiRequest($endpoint, $method, $data) {
                             <input type="datetime-local" name="valid_until" id="valid_until" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
                         <div class="mb-4">
-                            <label for="roblox_user_id" class="block text-sm font-medium text-gray-700">Roblox User ID</label>
-                            <input type="text" name="roblox_user_id" id="roblox_user_id" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <label for="roblox_user_id" class="block text-sm font-medium text-gray-700">Roblox User ID (for user licenses)</label>
+                            <input type="text" name="roblox_user_id" id="roblox_user_id" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <p class="mt-1 text-sm text-gray-600">
                                 Please verify the Roblox User ID carefully. <a href="#" id="robloxProfileLink" target="_blank">Click here to view profile.</a>
                             </p>
@@ -329,7 +299,7 @@ function apiRequest($endpoint, $method, $data) {
                         </div>
                         <div class="mb-4">
                             <label for="edit_valid_until" class="block text-sm font-medium text-gray-700">Valid Until</label>
-                            <input type="datetime-local" name="valid_until" id="edit_valid_until" x-bind:value="currentLicense.valid_until" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="datetime-local" name="valid_until" id="edit_valid_until" x-bind:value="currentLicense.valid_until_input" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
                         <div class="mb-4">
                             <label for="edit_max_uses" class="block text-sm font-medium text-gray-700">Max Uses</label>
@@ -345,7 +315,7 @@ function apiRequest($endpoint, $method, $data) {
                         </div>
                         <div class="flex items-start mb-4">
                             <div class="flex items-center h-5">
-                                <input type="checkbox" name="transferable" id="edit_transferable" x-bind:checked="currentLicense.transferable" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                <input type="checkbox" name="transferable" id="edit_transferable" x-bind:checked="currentLicense.transferable == 1" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                             </div>
                             <div class="ml-3 text-sm">
                                 <label for="edit_transferable" class="font-medium text-gray-700">Transferable</label>

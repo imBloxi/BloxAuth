@@ -25,7 +25,9 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
     xhr.onload = function() {
         if (xhr.status === 200) {
             document.getElementById('progress').style.display = 'none';
-            document.getElementById('result').innerHTML = `<h2>Obfuscated Script:</h2><pre>${xhr.responseText}</pre>`;
+            const result = document.getElementById('result');
+            result.innerHTML = '<h2>Obfuscated Script:</h2><pre></pre>';
+            result.querySelector('pre').textContent = xhr.responseText;
         } else {
             document.getElementById('result').textContent = 'Failed to obfuscate the script. Please try again.';
         }

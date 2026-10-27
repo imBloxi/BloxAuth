@@ -1,88 +1,86 @@
+-- BloxAuth license check for a Roblox game. Put this in a server Script.
+-- Requires Game Settings > Security > "Allow HTTP Requests".
+
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 
-local API_URL = "https://your-api-url.com/api/v1/licenses"
+local BASE_URL = "https://your-domain.com/api" -- your BloxAuth install
 local LICENSE_KEY = "your_license_key_here"
 
-local function logUsage(userId, action)
-    local data = {
-        license_key = LICENSE_KEY,
-        roblox_user_id = userId,
-        roblox_place_id = game.PlaceId,
-        action = action
-    }
+local CHECK_INTERVAL = 300 -- seconds between re-checks
 
-    local success, response = pcall(function()
-        return HttpService:RequestAsync({
-            Url = API_URL .. "/log_usage",  -- Adjust the endpoint URL
-            Method = "POST",
-            Headers = {
-                ["Content-Type"] = "application/json",
-                ["Authorization"] = "Bearer " .. LICENSE_KEY
-            },
-            Body = HttpService:JSONEncode(data)
-        })
-    end)
+-- The game's owner: a user ID for user-owned games, a group ID for group games.
+local OWNER_ID = game.CreatorId
 
-    if success then
-        if response.StatusCode == 200 then
-            print("Successfully logged usage for user " .. userId)
-        else
-            warn("Failed to log usage. Status code: " .. response.StatusCode)
-        end
-    else
-        warn("Failed to log usage: " .. tostring(response))
-    end
+local function post(path, contentType, body)
+	local ok, response = pcall(function()
+		return HttpService:RequestAsync({
+			Url = BASE_URL .. path,
+			Method = "POST",
+			Headers = { ["Content-Type"] = contentType },
+			Body = body,
+		})
+	end)
+	if not ok then
+		return nil, tostring(response)
+	end
+	return response
 end
 
-local function validateLicense()
-    local data = {
-        license_key = LICENSE_KEY,
-        roblox_place_id = game.PlaceId
-    }
+local function validateLicense(recheck)
+	local body = HttpService:JSONEncode({
+		license_key = LICENSE_KEY,
+		roblox_id = tostring(OWNER_ID),
+		place_id = tostring(game.PlaceId),
+		recheck = recheck == true, -- re-checks don't use up max_uses
+	})
+	local response, err = post("/validate_key.php", "application/json", body)
+	if not response then
+		warn("BloxAuth: license check failed: " .. err)
+		return false
+	end
 
-    local success, response = pcall(function()
-        return HttpService:RequestAsync({
-            Url = API_URL .. "/validate_license",  -- Adjust the endpoint URL
-            Method = "POST",
-            Headers = {
-                ["Content-Type"] = "application/json",
-                ["Authorization"] = "Bearer " .. LICENSE_KEY
-            },
-            Body = HttpService:JSONEncode(data)
-        })
-    end)
+	local ok, result = pcall(HttpService.JSONDecode, HttpService, response.Body)
+	if ok and result.status == "success" then
+		return true
+	end
+	warn("BloxAuth: license rejected: " .. tostring(ok and result.message or response.StatusCode))
+	return false
+end
 
-    if success and response.StatusCode == 200 then
-        local result = HttpService:JSONDecode(response.Body)
-        return result.status == "success"
-    else
-        warn("License validation failed. Status code: " .. (response and response.StatusCode or "nil"))
-        return false
-    end
+local function logUsage(userId, action)
+	local body = HttpService:JSONEncode({
+		license_key = LICENSE_KEY,
+		roblox_user_id = userId,
+		roblox_place_id = game.PlaceId,
+		action = action,
+	})
+	local response, err = post("/api.php?action=log_usage", "application/json", body)
+	if not response or response.StatusCode ~= 200 then
+		warn("BloxAuth: failed to log usage: " .. tostring(err or response.StatusCode))
+	end
+end
+
+local function onInvalidLicense()
+	-- Decide what an unlicensed server should do, e.g. kick players or disable features.
+	warn("BloxAuth: invalid license, the game will not function properly.")
 end
 
 Players.PlayerAdded:Connect(function(player)
-    logUsage(player.UserId, "join")
+	logUsage(player.UserId, "join")
 end)
 
 Players.PlayerRemoving:Connect(function(player)
-    logUsage(player.UserId, "leave")
+	logUsage(player.UserId, "leave")
 end)
 
--- Validate license on server start
 if not validateLicense() then
-    warn("Invalid license! The game will not function properly.")
-    -- Implement your desired behavior for invalid license (e.g., kick all players, disable features)
+	onInvalidLicense()
 end
 
--- Periodically validate license and log usage
 while true do
-    wait(300) -- Check every 5 minutes
-    if not validateLicense() then
-        warn("License has become invalid! The game will not function properly.")
-        -- Implement your desired behavior for invalid license
-    end
-    -- Log current player count
-    logUsage(#Players:GetPlayers(), "player_count")
+	task.wait(CHECK_INTERVAL)
+	if not validateLicense(true) then
+		onInvalidLicense()
+	end
 end

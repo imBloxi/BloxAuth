@@ -1,28 +1,28 @@
 <?php
-session_start();
-require '../includes/db.php';
-require '../includes/functions.php';
-require '../includes/sellix_integration.php';
+require_once '../includes/config.php';
+require_once '../includes/sellix_integration.php';
 
 redirect_if_not_logged_in();
 
 $user_id = $_SESSION['user_id'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['create_product'])) {
-        $license_type = $_POST['license_type'];
-        $custom_tier_id = $_POST['custom_tier_id'] ?: null;
-        $price = $_POST['price'];
-        $currency = $_POST['currency'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_product'])) {
+    $license_type = trim($_POST['license_type'] ?? '');
+    $price = $_POST['price'] ?? '';
 
-        create_sellix_product($user_id, $license_type, $custom_tier_id, $price, $currency);
-        $_SESSION['message'] = "Sellix product created successfully.";
+    if ($license_type === '' || !is_numeric($price) || $price <= 0) {
+        $_SESSION['error'] = 'License type and a positive price are required.';
+    } else {
+        $result = create_sellix_product($user_id, $license_type, $_POST['custom_tier_id'] ?? null, $price, $_POST['currency'] ?? 'USD');
+        $_SESSION[$result['status'] === 'success' ? 'message' : 'error'] = $result['message'];
     }
+    redirect('/app/sellix_products.php');
 }
 
 $products = get_sellix_products($user_id);
 $custom_tiers = fetch_custom_tiers($pdo, $user_id);
-
+$message = flash('message');
+$error = flash('error');
 ?>
 
 <!DOCTYPE html>
@@ -39,10 +39,14 @@ $custom_tiers = fetch_custom_tiers($pdo, $user_id);
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-6">Sellix Products</h1>
 
-        <?php if (isset($_SESSION['message'])): ?>
+        <?php if ($message): ?>
             <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
-                <p><?= $_SESSION['message'] ?></p>
-                <?php unset($_SESSION['message']); ?>
+                <p><?= e($message) ?></p>
+            </div>
+        <?php endif; ?>
+        <?php if ($error): ?>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+                <p><?= e($error) ?></p>
             </div>
         <?php endif; ?>
 
@@ -61,7 +65,7 @@ $custom_tiers = fetch_custom_tiers($pdo, $user_id);
                             <select name="custom_tier_id" id="custom_tier_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="">Select a custom tier</option>
                                 <?php foreach ($custom_tiers as $tier): ?>
-                                    <option value="<?= $tier['id'] ?>"><?= htmlspecialchars($tier['tier_name']) ?></option>
+                                    <option value="<?= (int) $tier['id'] ?>"><?= e($tier['tier_name']) ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -110,11 +114,11 @@ $custom_tiers = fetch_custom_tiers($pdo, $user_id);
                                     <tbody class="bg-white divide-y divide-gray-200">
                                         <?php foreach ($products as $product): ?>
                                             <tr>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= htmlspecialchars($product['license_type']) ?></td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $product['custom_tier_id'] ? htmlspecialchars(get_custom_tier_name($pdo, $product['custom_tier_id'])) : 'N/A' ?></td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= htmlspecialchars($product['price']) ?></td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= htmlspecialchars($product['currency']) ?></td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= htmlspecialchars($product['sellix_product_id']) ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= e($product['license_type']) ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $product['custom_tier_id'] ? e(get_custom_tier_name($pdo, $product['custom_tier_id'])) : 'N/A' ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= e($product['price']) ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= e($product['currency']) ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= e($product['sellix_product_id']) ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

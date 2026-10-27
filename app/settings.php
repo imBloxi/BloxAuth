@@ -1,7 +1,5 @@
 <?php
-session_start();
-require '../includes/db.php';
-require '../includes/functions.php';
+require_once '../includes/config.php';
 
 redirect_if_not_logged_in();
 
@@ -54,15 +52,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         activity_retention = ?
         WHERE id = ?");
     
+    $theme = in_array($_POST['theme'] ?? '', ['light', 'dark', 'system'], true) ? $_POST['theme'] : 'system';
+    $timezone = in_array($_POST['timezone'] ?? '', DateTimeZone::listIdentifiers(), true) ? $_POST['timezone'] : 'UTC';
+    $webhook = trim($_POST['discord_webhook_url'] ?? '');
+
     $stmt->execute([
-        $_POST['theme'],
-        $_POST['timezone'],
-        $_POST['discord_webhook_url'],
-        $_POST['api_rate_limit'],
+        $theme,
+        $timezone,
+        $webhook === '' ? null : $webhook,
+        max(1, (int) ($_POST['api_rate_limit'] ?? 60)),
         isset($_POST['api_logging_enabled']) ? 1 : 0,
-        $_POST['sellix_api_key'],
-        $_POST['sellix_store_id'],
-        $_POST['sellix_webhook_secret'],
+        trim($_POST['sellix_api_key'] ?? ''),
+        trim($_POST['sellix_store_id'] ?? ''),
+        trim($_POST['sellix_webhook_secret'] ?? ''),
         isset($_POST['sellix_auto_fulfill']) ? 1 : 0,
         isset($_POST['allow_email_notifications']) ? 1 : 0,
         isset($_POST['allow_push_notifications']) ? 1 : 0,
@@ -70,13 +72,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         isset($_POST['notify_on_license_expiry']) ? 1 : 0,
         isset($_POST['log_login_activity']) ? 1 : 0,
         isset($_POST['log_license_usage']) ? 1 : 0,
-        $_POST['activity_retention'],
+        max(1, (int) ($_POST['activity_retention'] ?? 30)),
         $user_id
     ]);
 
     $_SESSION['message'] = "Settings updated successfully.";
-    header('Location: settings.php');
-    exit();
+    redirect('/app/settings.php');
 }
 
 // Fetch subscription levels
@@ -106,7 +107,7 @@ $subscription_levels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <?php if (isset($_SESSION['message'])): ?>
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 animate__animated animate__fadeIn" role="alert">
-                    <p><?= $_SESSION['message'] ?></p>
+                    <p><?= e($_SESSION['message']) ?></p>
                     <?php unset($_SESSION['message']); ?>
                 </div>
             <?php endif; ?>
@@ -139,12 +140,12 @@ $subscription_levels = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             
                             <div class="mb-4">
                                 <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                                <input type="text" id="username" name="username" value="<?= htmlspecialchars($user['username']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="text" id="username" name="username" value="<?= e($user['username']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                             
                             <div class="mb-4">
                                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="email" id="email" name="email" value="<?= e($user['email']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
 
                             <div class="mb-4">
@@ -162,7 +163,7 @@ $subscription_levels = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <?php
                                     $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
                                     foreach ($timezones as $tz) {
-                                        echo "<option value=\"$tz\"" . ($user['timezone'] === $tz ? ' selected' : '') . ">$tz</option>";
+                                        echo '<option value="' . e($tz) . '"' . ($user['timezone'] === $tz ? ' selected' : '') . '>' . e($tz) . '</option>';
                                     }
                                     ?>
                                 </select>
@@ -175,7 +176,7 @@ $subscription_levels = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="mb-4">
                                 <label for="api_key" class="block text-sm font-medium text-gray-700">API Key</label>
                                 <div class="mt-1 flex rounded-md shadow-sm">
-                                    <input type="text" id="api_key" value="<?= htmlspecialchars($api_key) ?>" readonly class="flex-grow rounded-l-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <input type="text" id="api_key" value="<?= e($api_key) ?>" readonly class="flex-grow rounded-l-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                     <button type="button" onclick="copyApiKey()" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                                         Copy
                                     </button>
@@ -184,12 +185,12 @@ $subscription_levels = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             
                             <div class="mb-4">
                                 <label for="discord_webhook_url" class="block text-sm font-medium text-gray-700">Discord Webhook URL</label>
-                                <input type="url" id="discord_webhook_url" name="discord_webhook_url" value="<?= htmlspecialchars($user['discord_webhook_url']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="url" id="discord_webhook_url" name="discord_webhook_url" value="<?= e($user['discord_webhook_url']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
 
                             <div class="mb-4">
                                 <label for="api_rate_limit" class="block text-sm font-medium text-gray-700">API Rate Limit (requests per minute)</label>
-                                <input type="number" id="api_rate_limit" name="api_rate_limit" value="<?= htmlspecialchars($user['api_rate_limit']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="number" id="api_rate_limit" name="api_rate_limit" value="<?= e($user['api_rate_limit']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
 
                             <div class="mb-4">
@@ -205,17 +206,17 @@ $subscription_levels = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             
                             <div class="mb-4">
                                 <label for="sellix_api_key" class="block text-sm font-medium text-gray-700">Sellix API Key</label>
-                                <input type="text" id="sellix_api_key" name="sellix_api_key" value="<?= htmlspecialchars($user['sellix_api_key']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="text" id="sellix_api_key" name="sellix_api_key" value="<?= e($user['sellix_api_key']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                             
                             <div class="mb-4">
                                 <label for="sellix_store_id" class="block text-sm font-medium text-gray-700">Sellix Store ID</label>
-                                <input type="text" id="sellix_store_id" name="sellix_store_id" value="<?= htmlspecialchars($user['sellix_store_id']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="text" id="sellix_store_id" name="sellix_store_id" value="<?= e($user['sellix_store_id']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                             
                             <div class="mb-4">
                                 <label for="sellix_webhook_secret" class="block text-sm font-medium text-gray-700">Sellix Webhook Secret</label>
-                                <input type="text" id="sellix_webhook_secret" name="sellix_webhook_secret" value="<?= htmlspecialchars($user['sellix_webhook_secret']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="text" id="sellix_webhook_secret" name="sellix_webhook_secret" value="<?= e($user['sellix_webhook_secret']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
 
                             <div class="mb-4">
@@ -277,7 +278,7 @@ $subscription_levels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                             <div class="mb-4">
                                 <label for="activity_retention" class="block text-sm font-medium text-gray-700">Activity Log Retention (days)</label>
-                                <input type="number" id="activity_retention" name="activity_retention" value="<?= htmlspecialchars($user['activity_retention']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="number" id="activity_retention" name="activity_retention" value="<?= e($user['activity_retention']) ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                         </div>
                         

@@ -1,32 +1,28 @@
 <?php
-session_start();
-require '../includes/db.php';
+require_once '../includes/config.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../auth/login.php');
-    exit();
+if (!is_user_logged_in()) {
+    redirect('/auth/login.php');
 }
 
-$stmt = $pdo->prepare('SELECT is_banned, ban_reason FROM users WHERE id = ?');
+$stmt = $pdo->prepare('SELECT username, is_banned, ban_reason FROM users WHERE id = ?');
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
+if (!$user) {
+    redirect('/auth/logout.php');
+}
 if (!$user['is_banned']) {
-    header('Location: ../app/dashboard');
-    exit();
+    redirect('/app/dashboard.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['delete_account'])) {
-        $stmt = $pdo->prepare('DELETE FROM users WHERE id = ?');
-        $stmt->execute([$_SESSION['user_id']]);
-        session_destroy();
-        header('Location: ../auth/login.php');
-        exit();
-    } elseif (isset($_POST['logout'])) {
-        session_destroy();
-        header('Location: ../auth/login.php');
-        exit();
+        // Soft delete: licenses and logs reference the user row.
+        $pdo->prepare('UPDATE users SET is_deleted = 1, delete_reason = ? WHERE id = ?')->execute(['Deleted while banned', $_SESSION['user_id']]);
+    }
+    if (isset($_POST['delete_account']) || isset($_POST['logout'])) {
+        redirect('/auth/logout.php');
     }
 }
 ?>
@@ -49,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </a>
                 <div class="flex items-center lg:order-2">
                     <span class="text-white font-medium text-sm px-4 py-2 lg:px-5 lg:py-2.5 mr-2">
-                        Banned User: <?php echo htmlspecialchars($_SESSION['username']); ?>
+                        Banned User: <?php echo e($user['username']); ?>
                     </span>
                     <form action="" method="post">
                         <button type="submit" name="logout" class="text-white font-medium text-sm px-4 py-2 lg:px-5 lg:py-2.5 mr-2 bg-red-600 rounded-lg hover:opacity-80 transition duration-200">Log Out</button>
@@ -68,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <section class="py-8 max-w-screen-xl px-4 mx-auto lg:py-16">
             <div class="bg-[#0f0f17] rounded-xl p-6 text-center">
                 <h3 class="text-xl font-semibold mb-4">Ban Reason</h3>
-                <p class="text-gray-400 mb-4"><?php echo htmlspecialchars($user['ban_reason']); ?></p>
+                <p class="text-gray-400 mb-4"><?php echo e($user['ban_reason']); ?></p>
             </div>
         </section>
     </main>

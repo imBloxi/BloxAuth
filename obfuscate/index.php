@@ -1,82 +1,43 @@
 <?php
-session_start();
-require '../includes/db.php';
-require '../includes/functions.php';
-
+require_once '../includes/config.php';
 redirect_if_not_logged_in();
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch user's remaining credits
-$stmt = $pdo->prepare("SELECT credits FROM users WHERE id = ?");
-$stmt->execute([$user_id]);
-$user_credits = $stmt->fetchColumn();
+// Download one of the user's own earlier results.
+if (isset($_GET['download'])) {
+    $stmt = $pdo->prepare("SELECT obfuscated_script FROM obfuscations WHERE id = ? AND user_id = ?");
+    $stmt->execute([(int) $_GET['download'], $user_id]);
+    $code = $stmt->fetchColumn();
+    if ($code === false) {
+        http_response_code(404);
+        exit('Not found');
+    }
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="obfuscated_script.lua"');
+    echo $code;
+    exit;
+}
 
 $notification = '';
+$download_id = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ($user_credits < 1) {
-        $notification = 'Insufficient credits to perform obfuscation.';
+    $script_content = $_POST['scriptContent'] ?? '';
+    if (trim($script_content) === '') {
+        $notification = 'No script provided.';
     } else {
-        $script_content = $_POST['scriptContent'] ?? '';
-        $options = $_POST['options'] ?? [];
-
-        if (empty($script_content)) {
-            $notification = 'No script provided.';
+        $result = obfuscate_lua_script($pdo, $user_id, $script_content, (array) ($_POST['options'] ?? []));
+        if (isset($result['error'])) {
+            $notification = $result['error'];
         } else {
-            $api_key = '798156b-d4'; // Replace with your actual API key
-            $obfuscate_url = 'https://api.luaobfuscator.com/v1/obfuscator/obfuscate';
-
-            // Prepare the data for the API request
-            $data = [
-                'script' => $script_content,
-                'options' => [
-                    'Virtualize' => in_array('Virtualize', $options),
-                    'Constants' => in_array('Constants', $options),
-                    'Minify' => in_array('Minify', $options),
-                    'EncryptStrings' => in_array('EncryptStrings', $options),
-                ]
-            ];
-
-            $ch = curl_init($obfuscate_url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'apikey: ' . $api_key
-            ]);
-
-            $response = curl_exec($ch);
-
-            if (curl_errno($ch)) {
-                $notification = 'Curl error: ' . curl_error($ch);
-            } else {
-                $result = json_decode($response, true);
-                if (isset($result['code'])) {
-                    // Deduct 1 credit from the user
-                    $stmt = $pdo->prepare("UPDATE users SET credits = credits - 1 WHERE id = ?");
-                    $stmt->execute([$user_id]);
-
-                    // Log the obfuscation
-                    $stmt = $pdo->prepare("INSERT INTO obfuscation_logs (user_id, script_length, options) VALUES (?, ?, ?)");
-                    $stmt->execute([$user_id, strlen($script_content), json_encode($options)]);
-
-                    // Save the obfuscated script to a file
-                    $obfuscated_file = '../uploads/obfuscated_' . time() . '.lua';
-                    file_put_contents($obfuscated_file, $result['code']);
-
-                    // Provide download link
-                    $notification = 'Obfuscation complete! <a href="' . $obfuscated_file . '" download>Download your obfuscated script</a>.';
-                } else {
-                    $notification = 'Failed to obfuscate the script. Please try again.';
-                }
-            }
-
-            curl_close($ch);
+            $notification = 'Obfuscation complete!';
+            $download_id = $result['id'];
         }
     }
 }
+
+$user_credits = get_user_credits($user_id);
 ?>
 <!DOCTYPE html>
 <html lang="en" class="bg-gray-900">
@@ -93,7 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <?php if ($notification): ?>
             <div class="bg-red-500 text-white p-4 rounded-lg mb-6">
-                <?= $notification ?>
+                <?= e($notification) ?>
+                <?php if ($download_id): ?>
+                    <a href="?download=<?= (int) $download_id ?>" class="underline">Download your obfuscated script</a>.
+                <?php endif; ?>
             </div>
         <?php endif; ?>
 
@@ -159,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Step 3: Obfuscate -->
                 <div x-show="step === 3">
                     <h2 class="text-xl font-semibold mb-4 text-purple-300">Obfuscate Your Script</h2>
-                    <p class="mb-4">You have <?= $user_credits ?> credits remaining. Obfuscation costs 1 credit.</p>
+                    <p class="mb-4">You have <?= (int) $user_credits ?> credits remaining. Obfuscation costs 1 credit.</p>
                     <p class="mb-4">Review your settings and click "Obfuscate" to process your script.</p>
                     <div class="mb-4">
                         <strong class="block text-purple-300">Script Length:</strong>

@@ -1,9 +1,12 @@
 <?php
 require_once '../includes/config.php';
-require_once '../includes/functions.php';
 
-
-
+$privacy_policy = [
+    'updated_at' => '2026-10-27',
+    'content' => '<p>' . e(APP_NAME) . ' stores the account details you give us (username, email, hashed password), '
+        . 'the licenses you create, and logs of license checks, logins and payments. We use this data only to run the service, '
+        . 'and we do not sell it. You can delete your account at any time from your settings.</p>',
+];
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +14,7 @@ require_once '../includes/functions.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - <?php echo APP_NAME; ?></title>
+    <title>Privacy Policy - <?php echo e(APP_NAME); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
@@ -42,7 +45,7 @@ require_once '../includes/functions.php';
             <h2 class="text-2xl font-semibold mb-4">Contact Us</h2>
             <p>If you have any questions about our privacy policy or your data rights, please contact our Data Protection Officer:</p>
             <p class="mt-2">
-                <strong>Email:</strong> dpo@<?php echo $_SERVER['HTTP_HOST']; ?><br>
+                <strong>Email:</strong> dpo@<?php echo e($_SERVER['HTTP_HOST'] ?? 'example.com'); ?><br>
                 <strong>Address:</strong> [Your Company Address]
             </p>
         </div>

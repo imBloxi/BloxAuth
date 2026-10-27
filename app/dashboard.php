@@ -9,6 +9,11 @@ $stmt = $pdo->prepare("SELECT username, email, credits, subscription_tier, subsc
 $stmt->execute([$user_id]);
 $user_info = $stmt->fetch();
 
+// New accounts name their app first.
+if (empty($user_info['app_name'])) {
+    redirect('/app/setup_app.php');
+}
+
 // Fetch recent licenses
 $recent_licenses = fetch_recent_licenses($pdo, $user_id, 5);
 
@@ -27,7 +32,7 @@ $recent_activities = fetch_recent_user_activities($pdo, $user_id, 5);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - <?php echo APP_NAME; ?></title>
+    <title>Dashboard - <?php echo e(APP_NAME); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
@@ -37,7 +42,7 @@ $recent_activities = fetch_recent_user_activities($pdo, $user_id, 5);
 
         <header class="bg-white shadow">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                <h1 class="text-3xl font-bold text-gray-900">Welcome, <?php echo htmlspecialchars($user_info['username']); ?>!</h1>
+                <h1 class="text-3xl font-bold text-gray-900">Welcome, <?php echo e($user_info['username']); ?>!</h1>
             </div>
         </header>
 
@@ -51,14 +56,14 @@ $recent_activities = fetch_recent_user_activities($pdo, $user_id, 5);
                             <i class="fas fa-rocket text-3xl text-indigo-500 mr-3"></i>
                             <div>
                                 <p class="text-sm font-medium text-gray-500">App Name</p>
-                                <p class="mt-1 text-lg font-semibold text-gray-900"><?php echo htmlspecialchars($user_info['app_name'] ?? 'Not set'); ?></p>
+                                <p class="mt-1 text-lg font-semibold text-gray-900"><?php echo e($user_info['app_name'] ?? 'Not set'); ?></p>
                             </div>
                         </div>
                         <div class="flex items-center">
                             <i class="fas fa-crown text-3xl text-yellow-500 mr-3"></i>
                             <div>
                                 <p class="text-sm font-medium text-gray-500">Subscription</p>
-                                <p class="mt-1 text-lg font-semibold text-gray-900"><?php echo htmlspecialchars($user_info['subscription_tier'] ?? 'No active subscription'); ?></p>
+                                <p class="mt-1 text-lg font-semibold text-gray-900"><?php echo e($user_info['subscription_tier'] ?? 'No active subscription'); ?></p>
                             </div>
                         </div>
                         <div class="flex items-center">
@@ -129,12 +134,13 @@ $recent_activities = fetch_recent_user_activities($pdo, $user_id, 5);
                                         <tbody class="bg-white divide-y divide-gray-200">
                                             <?php foreach ($recent_licenses as $license): ?>
                                             <tr>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?php echo htmlspecialchars($license['key']); ?></td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo htmlspecialchars($license['whitelist_type']); ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?php echo e($license['key']); ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo e($license['whitelist_type']); ?></td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo date('Y-m-d', strtotime($license['created_at'])); ?></td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                        Active
+                                                    <?php $status = license_status($license); ?>
+                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?php echo $status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'; ?>">
+                                                        <?php echo e($status); ?>
                                                     </span>
                                                 </td>
                                             </tr>
@@ -153,7 +159,7 @@ $recent_activities = fetch_recent_user_activities($pdo, $user_id, 5);
                 <div class="px-4 py-5 sm:p-6">
                     <h2 class="text-lg font-medium text-gray-900 mb-2">API Key</h2>
                     <div class="mt-2 flex items-center justify-between">
-                        <input type="text" value="<?php echo htmlspecialchars($api_key); ?>" readonly class="flex-grow mr-4 p-2 border rounded">
+                        <input type="text" value="<?php echo e($api_key); ?>" readonly class="flex-grow mr-4 p-2 border rounded">
                         <button onclick="copyApiKey()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             <i class="fas fa-copy mr-2"></i> Copy
                         </button>
@@ -171,7 +177,7 @@ $recent_activities = fetch_recent_user_activities($pdo, $user_id, 5);
                             <div class="flex space-x-3">
                                 <div class="flex-1 space-y-1">
                                     <div class="flex items-center justify-between">
-                                        <h3 class="text-sm font-medium"><?php echo htmlspecialchars($activity['action']); ?></h3>
+                                        <h3 class="text-sm font-medium"><?php echo e($activity['action']); ?></h3>
                                         <p class="text-sm text-gray-500"><?php echo date('M j, Y', strtotime($activity['timestamp'])); ?></p>
                                     </div>
                                 </div>

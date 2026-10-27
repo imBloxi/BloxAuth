@@ -1,43 +1,26 @@
 <?php
-require '../includes/db.php';
+// Staff only: confirm a pending credit payment and add the credits.
+require_once '../includes/config.php';
+ensure_admin();
 
-// Function to manually confirm payment
 function confirm_payment($transaction_id) {
     global $pdo;
-    
-    // Fetch the pending payment
-    $stmt = $pdo->prepare("SELECT id, user_id, credits, status FROM payments WHERE transaction_id = ? AND status = 'pending'");
+    $pdo->beginTransaction();
+    $stmt = $pdo->prepare("SELECT id, user_id, credits FROM payments WHERE transaction_id = ? AND status = 'pending' FOR UPDATE");
     $stmt->execute([$transaction_id]);
     $payment = $stmt->fetch();
 
-    if ($payment) {
-        $credits = $payment['credits'];
-        $user_id = $payment['user_id'];
-        
-        // Assume manual confirmation is successful
-        // In a real implementation, you would check the actual Robux transaction
-        
-        // Update user credits
-        $stmt = $pdo->prepare("UPDATE users SET credits = credits + ? WHERE id = ?");
-        $stmt->execute([$credits, $user_id]);
-
-        // Mark payment as completed
-        $stmt = $pdo->prepare("UPDATE payments SET status = 'completed' WHERE id = ?");
-        $stmt->execute([$payment['id']]);
-        
-        return true;
+    if (!$payment) {
+        $pdo->rollBack();
+        return false;
     }
-    
-    return false;
+    $pdo->prepare("UPDATE users SET credits = credits + ? WHERE id = ?")->execute([$payment['credits'], $payment['user_id']]);
+    $pdo->prepare("UPDATE payments SET status = 'completed' WHERE id = ?")->execute([$payment['id']]);
+    $pdo->commit();
+    return true;
 }
 
-// Example of manually confirming a payment
-if (isset($_GET['transaction_id'])) {
-    $transaction_id = $_GET['transaction_id'];
-    if (confirm_payment($transaction_id)) {
-        echo "Payment confirmed and credits added.";
-    } else {
-        echo "Payment confirmation failed.";
-    }
+if (isset($_POST['transaction_id'])) {
+    echo confirm_payment($_POST['transaction_id']) ? "Payment confirmed and credits added." : "Payment confirmation failed.";
 }
 ?>

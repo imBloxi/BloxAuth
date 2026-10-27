@@ -1,4 +1,4 @@
-name: PHP Composer
+name: CI
 
 on:
   push:
@@ -10,30 +10,54 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: roblox_licensing
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+
+    env:
+      DB_HOST: 127.0.0.1
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: roblox_licensing
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
-
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
+    - uses: shivammathur/setup-php@v2
       with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+        php-version: '8.3'
+        extensions: pdo_mysql, curl
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+    - name: Validate composer.json
+      run: composer validate --strict --no-check-lock
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
+    - name: Lint PHP
+      run: find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l > /dev/null
 
-    # - name: Run test suite
-    #   run: composer run-script test
+    - name: Load database schema
+      run: |
+        mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < db.sql
+        for f in migrations/*.sql; do mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < "$f"; done
+
+    - name: Start PHP server
+      run: |
+        php -S 127.0.0.1:8099 -t . > server.log 2>&1 &
+        sleep 2
+
+    - name: End-to-end tests
+      run: tests/e2e.sh
+
+    - name: Server log
+      if: always()
+      run: cat server.log

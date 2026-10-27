@@ -1,35 +1,18 @@
 <?php
-session_start();
-require '../includes/db.php';
+require_once '../includes/config.php';
+ensure_admin();
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../auth/login.php');
-    exit();
-}
-
-// Check if the user is a staff member
-$stmt = $pdo->prepare('SELECT is_staff FROM users WHERE id = ?');
-$stmt->execute([$_SESSION['user_id']]);
-$user = $stmt->fetch();
-
-if (!$user['is_staff']) {
-    echo "Access denied.";
-    exit();
-}
-
+$message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_POST['user_id'] ?? null;
-    $ban_reason = $_POST['ban_reason'] ?? null;
+    $target_id = (int) ($_POST['user_id'] ?? 0);
+    $ban_reason = trim($_POST['ban_reason'] ?? '');
 
-    if ($user_id && $ban_reason) {
-        $stmt = $pdo->prepare('UPDATE users SET is_banned = 1, ban_reason = ? WHERE id = ?');
-        $stmt->execute([$ban_reason, $user_id]);
-        echo "User banned successfully.";
+    if ($target_id && $ban_reason !== '' && get_user_by_id($target_id)) {
+        banUser($pdo, $target_id, $_SESSION['user_id'], $ban_reason);
+        $message = "User banned successfully.";
     } else {
-        echo "Invalid request.";
+        $message = "Invalid request.";
     }
-} else {
-    echo "Invalid request method.";
 }
 ?>
 
@@ -40,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <h1>Ban User</h1>
-    <form action="ban_user.php" method="post">
+    <?php if ($message): ?><p><?php echo e($message); ?></p><?php endif; ?>
+    <form action="" method="post">
         <label for="user_id">User ID:</label>
         <input type="text" id="user_id" name="user_id" required>
         <br>

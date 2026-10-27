@@ -1,37 +1,27 @@
 <?php
-session_start();
-require '../includes/db.php';
-require '../includes/functions.php';
-
-// Check if the user is an admin
-if (!isset($_SESSION['user_id']) || !isAdmin($pdo, $_SESSION['user_id'])) {
-    header('Location: ../auth/login.php');
-    exit;
-}
-
-$users = $pdo->query('SELECT * FROM users')->fetchAll();
+require_once '../includes/config.php';
+ensure_admin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userId = $_POST['user_id'];
-    $action = $_POST['action'];
-    $reason = $_POST['reason'] ?? '';
-    $moderatorId = $_SESSION['user_id'];
+    $target_id = (int) ($_POST['user_id'] ?? 0);
+    $reason = trim($_POST['reason'] ?? '');
+    $moderator_id = $_SESSION['user_id'];
 
-    switch ($action) {
+    switch (get_user_by_id($target_id) ? ($_POST['action'] ?? '') : '') {
         case 'suspend':
-            suspendUser($pdo, $userId, $moderatorId, $reason);
+            suspendUser($pdo, $target_id, $moderator_id, $reason);
             break;
         case 'ban':
-            banUser($pdo, $userId, $moderatorId, $reason);
+            banUser($pdo, $target_id, $moderator_id, $reason);
             break;
         case 'unban':
-            unbanUser($pdo, $userId, $moderatorId);
+            unbanUser($pdo, $target_id, $moderator_id);
             break;
     }
-
-    header('Location: manage_users.php');
-    exit;
+    redirect('/admin/index.php');
 }
+
+$users = $pdo->query('SELECT * FROM users ORDER BY created_at DESC')->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -56,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <tbody>
             <?php foreach ($users as $user): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($user['username']); ?></td>
-                    <td><?php echo htmlspecialchars($user['email']); ?></td>
+                    <td><?php echo e($user['username']); ?></td>
+                    <td><?php echo e($user['email']); ?></td>
                     <td>
                         <?php
                         if ($user['is_banned']) {
@@ -71,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </td>
                     <td>
                         <form method="post">
-                            <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                            <input type="hidden" name="user_id" value="<?php echo (int) $user['id']; ?>">
                             <select name="action">
                                 <option value="suspend">Suspend</option>
                                 <option value="ban">Ban</option>

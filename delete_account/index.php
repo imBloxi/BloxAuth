@@ -1,29 +1,24 @@
 <?php
-session_start();
-require '../includes/db.php';
+require_once '../includes/config.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../auth/login.php');
-    exit();
+if (!is_user_logged_in()) {
+    redirect('/auth/login.php');
 }
 
-// Check if the user is banned
 $stmt = $pdo->prepare('SELECT is_banned, username FROM users WHERE id = ?');
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
 if ($user['is_banned']) {
-    header('Location: suspended.php');
-    exit();
+    redirect('/delete_account/suspended.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete'])) {
-    $reason = $_POST['delete_reason'] ?? 'Not specified';
-    $stmt = $pdo->prepare('UPDATE users SET is_deleted = 1, delete_reason = ? WHERE id = ?');
-    $stmt->execute([$reason, $_SESSION['user_id']]);
+    $reason = trim($_POST['delete_reason'] ?? '') ?: 'Not specified';
+    $pdo->prepare('UPDATE users SET is_deleted = 1, delete_reason = ?, remember_token = NULL WHERE id = ?')->execute([$reason, $_SESSION['user_id']]);
+    $_SESSION = [];
     session_destroy();
-    header('Location: ../auth/login.php?deleted=1');
-    exit();
+    redirect('/auth/login.php?deleted=1');
 }
 ?>
 <!DOCTYPE html>
@@ -45,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete'])) {
             </div>
             <div class="p-6">
                 <div class="mb-6 text-sm text-gray-700">
-                    <p class="mb-4">We're sorry to see you go, <span class="font-semibold"><?= htmlspecialchars($user['username']) ?></span>. Before you proceed, please consider the following:</p>
+                    <p class="mb-4">We're sorry to see you go, <span class="font-semibold"><?= e($user['username']) ?></span>. Before you proceed, please consider the following:</p>
                     <ul class="list-disc list-inside space-y-2">
                         <li>All your personal data and settings will be permanently deleted.</li>
                         <li>Your activity history will be removed.</li>

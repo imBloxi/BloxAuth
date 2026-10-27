@@ -1,62 +1,29 @@
 <?php
-require_once '../includes/db.php';
-require_once '../includes/functions.php';
+// Create a license. Auth: X-API-Key header (or Authorization: Bearer <key>).
+// JSON body: roblox_user_id, whitelist_type, whitelist_id, valid_until, max_uses,
+//            description, custom_tier, is_transferable
+require_once '../includes/config.php';
 
-// Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => 'Method Not Allowed']);
-    exit;
+    json_response(['error' => 'Method Not Allowed'], 405);
 }
 
-// Get the API key from the request headers
-$api_key = $_SERVER['HTTP_X_API_KEY'] ?? null;
-
+$api_key = get_request_api_key();
 if (!$api_key) {
-    http_response_code(401);
-    echo json_encode(['error' => 'API key is required']);
-    exit;
+    json_response(['error' => 'API key is required'], 401);
 }
-
-// Validate the API key
-$stmt = $pdo->prepare("SELECT user_id FROM api_keys WHERE api_key = ?");
-$stmt->execute([$api_key]);
-$user_id = $stmt->fetchColumn();
-
+$user_id = validate_api_key($api_key);
 if (!$user_id) {
-    http_response_code(401);
-    echo json_encode(['error' => 'Invalid API key']);
-    exit;
+    json_response(['error' => 'Invalid API key'], 401);
 }
 
-// Get license data from the request body
-$json = file_get_contents('php://input');
-$data = json_decode($json, true);
-
-if (!$data) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Invalid JSON data']);
-    exit;
+$data = read_json_body();
+if ($data === null) {
+    json_response(['error' => 'Invalid JSON data'], 400);
 }
 
-// Generate a new license
-$license_key = generate_unique_license_key($pdo);
-$license_data = [
-    'key' => $license_key,
-    'whitelist_id' => $data['whitelist_id'] ?? null,
-    'whitelist_type' => $data['whitelist_type'] ?? 'user',
-    'description' => $data['description'] ?? '',
-    'valid_until' => $data['valid_until'] ?? null,
-    'roblox_user_id' => $data['roblox_user_id'] ?? null,
-    'max_uses' => $data['max_uses'] ?? null,
-    'is_transferable' => $data['is_transferable'] ?? false,
-    'custom_tier' => $data['custom_tier'] ?? null
-];
-
-if (save_license($pdo, $user_id, $license_data)) {
-    http_response_code(201);
-    echo json_encode(['success' => true, 'license_key' => $license_key]);
-} else {
-    http_response_code(500);
-    echo json_encode(['error' => 'Failed to create license']);
+$result = create_license($pdo, $user_id, $data);
+if (!$result['success']) {
+    json_response(['error' => $result['error']], 400);
 }
+json_response(['success' => true, 'license_key' => $result['license_key']], 201);

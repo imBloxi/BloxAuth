@@ -1,16 +1,12 @@
 <?php
-session_start();
-require '../includes/db.php';
-require '../includes/functions.php';
-
+require_once '../includes/config.php';
 redirect_if_not_logged_in();
 
-$user_id = $_SESSION['user_id'];
-$passkey = $_POST['passkey'];
+$passkey = $_POST['passkey'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !is_string($passkey) || $passkey === '') {
+    json_response(['success' => false, 'error' => 'passkey is required'], 400);
+}
 
-// Store the passkey securely
-$stmt = $pdo->prepare("UPDATE users SET passkey = ? WHERE id = ?");
-$stmt->execute([$passkey, $user_id]);
-
-echo json_encode(['success' => true]);
-?>
+// Stored hashed, like a password.
+$pdo->prepare("UPDATE users SET passkey = ? WHERE id = ?")->execute([password_hash($passkey, PASSWORD_DEFAULT), $_SESSION['user_id']]);
+json_response(['success' => true]);

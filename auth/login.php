@@ -1,85 +1,80 @@
 <?php
 require_once '../includes/config.php';
 
-$error_message = '';
+$error_message = flash('error') ?? flash('message') ?? '';
 $success_message = '';
 
+if (is_user_logged_in()) {
+    redirect('/app/dashboard.php');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $password = $_POST['password'];
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
     $remember_me = isset($_POST['remember_me']);
 
-    if (empty($username) || empty($password)) {
+    if ($username === '' || $password === '') {
         $error_message = "Username and password are required.";
     } else {
         try {
-            // Check login rate limit
             if (!check_rate_limit('login', $_SERVER['REMOTE_ADDR'], MAX_LOGIN_ATTEMPTS, LOGIN_ATTEMPT_TIMEOUT)) {
                 throw new Exception("Too many login attempts. Please try again later.");
             }
 
-            $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
+            $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ? AND is_deleted = 0');
             $stmt->execute([$username]);
             $user = $stmt->fetch();
 
-            if ($user) {
-                if ($user['locked_until'] && $user['locked_until'] > date('Y-m-d H:i:s')) {
-                    throw new Exception("Account is locked. Please try again later.");
-                }
+            if ($user && $user['locked_until'] && $user['locked_until'] > date('Y-m-d H:i:s')) {
+                throw new Exception("Account is locked. Please try again later.");
+            }
 
-                if (password_verify($password, $user['password'])) {
-                    // Successful login
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['username'] = $user['username'];
-
-                    // Reset login attempts
-                    $stmt = $pdo->prepare('UPDATE users SET login_attempts = 0, last_login = NOW() WHERE id = ?');
-                    $stmt->execute([$user['id']]);
-
-                    if ($user['two_factor_enabled']) {
-                        // Redirect to 2FA verification
-                        $_SESSION['2fa_required'] = true;
-                        header("Location: two_factor_auth.php");
-                        exit;
-                    }
-
-                    if ($remember_me) {
-                        $token = bin2hex(random_bytes(32));
-                        setcookie('remember_token', $token, time() + 30 * 24 * 60 * 60, '/', '', true, true);
-                        
-                        $stmt = $pdo->prepare('UPDATE users SET remember_token = ? WHERE id = ?');
-                        $stmt->execute([$token, $user['id']]);
-                    }
-
-                    // Log the login
-                    $ip_address = $_SERVER['REMOTE_ADDR'];
-                    $stmt = $pdo->prepare('INSERT INTO login_logs (user_id, ip_address) VALUES (?, ?)');
-                    $stmt->execute([$user['id'], $ip_address]);
-
-                    $success_message = "Login successful! Redirecting to dashboard...";
-                    header("Refresh: 2; URL=" . APP_URL . "/app/dashboard.php");
-                } else {
-                    // Failed login attempt
-                    $stmt = $pdo->prepare('UPDATE users SET login_attempts = login_attempts + 1 WHERE id = ?');
-                    $stmt->execute([$user['id']]);
-
+            if (!$user || !password_verify($password, $user['password'])) {
+                if ($user) {
+                    $pdo->prepare('UPDATE users SET login_attempts = login_attempts + 1 WHERE id = ?')->execute([$user['id']]);
                     if ($user['login_attempts'] >= 4) {
-                        $locked_until = date('Y-m-d H:i:s', strtotime('+30 minutes'));
-                        $stmt = $pdo->prepare('UPDATE users SET locked_until = ? WHERE id = ?');
-                        $stmt->execute([$locked_until, $user['id']]);
+                        $pdo->prepare('UPDATE users SET locked_until = ?, login_attempts = 0 WHERE id = ?')
+                            ->execute([date('Y-m-d H:i:s', strtotime('+30 minutes')), $user['id']]);
                         throw new Exception("Too many failed attempts. Account locked for 30 minutes.");
                     }
-
-                    throw new Exception("Invalid username or password.");
                 }
-            } else {
                 throw new Exception("Invalid username or password.");
             }
+
+            if ($user['two_factor_enabled']) {
+                // No session is granted until a second factor is checked, and
+                // 2FA verification is not implemented yet.
+                throw new Exception("Two-factor login is not available yet. Please contact support.");
+            }
+
+            login_user($user['id'], $user['username']);
+            $pdo->prepare('UPDATE users SET login_attempts = 0, locked_until = NULL, last_login = NOW() WHERE id = ?')
+                ->execute([$user['id']]);
+
+            if ($remember_me) {
+                $token = bin2hex(random_bytes(32));
+                setcookie('remember_token', $token, [
+                    'expires' => time() + 30 * 24 * 60 * 60,
+                    'path' => '/',
+                    'secure' => is_https(),
+                    'httponly' => true,
+                    'samesite' => 'Lax',
+                ]);
+                $pdo->prepare('UPDATE users SET remember_token = ? WHERE id = ?')->execute([hash('sha256', $token), $user['id']]);
+            }
+
+            $pdo->prepare('INSERT INTO login_logs (user_id, ip_address) VALUES (?, ?)')->execute([$user['id'], $_SERVER['REMOTE_ADDR']]);
+            log_user_activity($user['id'], 'Logged in');
+
+            redirect('/app/dashboard.php');
         } catch (Exception $e) {
             $error_message = $e->getMessage();
         }
     }
-  
+}
+
+if (isset($_GET['deleted'])) {
+    $success_message = 'Your account has been deleted.';
 }
 ?>
 <!DOCTYPE html>
@@ -87,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - <?php echo APP_NAME; ?></title>
+    <title>Login - <?php echo e(APP_NAME); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.2/dist/cdn.min.js" defer></script>
 </head>
@@ -103,17 +98,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <?php if ($error_message): ?>
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <span class="block sm:inline"><?php echo htmlspecialchars($error_message); ?></span>
+                <span class="block sm:inline"><?php echo e($error_message); ?></span>
             </div>
         <?php endif; ?>
         <?php if ($success_message): ?>
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                <span class="block sm:inline"><?php echo htmlspecialchars($success_message); ?></span>
+                <span class="block sm:inline"><?php echo e($success_message); ?></span>
             </div>
         <?php endif; ?>
         <form class="mt-8 space-y-6" action="" method="POST">
-            <input type="hidden" name="remember" value="true">
-            <div class="rounded-md shadow-sm -space-y-px">
+                        <div class="rounded-md shadow-sm -space-y-px">
                 <div>
                     <label for="username" class="sr-only">Username</label>
                     <input id="username" name="username" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Username">
@@ -132,11 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </label>
                 </div>
 
-                <div class="text-sm">
-                    <a href="<?php echo APP_URL; ?>/auth/forgot-password.php" class="font-medium text-indigo-600 hover:text-indigo-500">
-                        Forgot your password?
-                    </a>
-                </div>
             </div>
 
             <div>
@@ -148,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="text-center">
             <p class="mt-2 text-sm text-gray-600">
                 Don't have an account? 
-                <a href="<?php echo APP_URL; ?>/auth/register.php" class="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="<?php echo url('/auth/register.php'); ?>" class="font-medium text-indigo-600 hover:text-indigo-500">
                     Sign up
                 </a>
             </p>

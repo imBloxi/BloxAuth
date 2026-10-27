@@ -1,27 +1,12 @@
 <?php
-session_start();
-require '../includes/db.php';
-require '../includes/functions.php'; // Include the functions file
+require_once '../includes/config.php';
+ensure_admin();
 
-// Check if the user is an admin
-if (!isset($_SESSION['user_id']) || !isAdmin($_SESSION['user_id'])) {
-    header('Location: ../auth/login.php');
-    exit;
-}
-
+$message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_license_key = generateLicenseKey();
-    $stmt = $pdo->prepare('INSERT INTO license_keys (license_key) VALUES (?)');
-    $stmt->execute([$new_license_key]);
+    $pdo->prepare('INSERT INTO license_keys (license_key, issued_to) VALUES (?, ?)')->execute([$new_license_key, $_SESSION['user_id']]);
     $message = "New license key generated: $new_license_key";
-}
-
-function isAdmin($user_id) {
-    global $pdo;
-    $stmt = $pdo->prepare('SELECT is_staff FROM users WHERE id = ?');
-    $stmt->execute([$user_id]);
-    $user = $stmt->fetch();
-    return $user && $user['is_staff'] == 1;
 }
 ?>
 <!DOCTYPE html>
@@ -57,7 +42,7 @@ function isAdmin($user_id) {
         <div class="max-w-md mx-auto bg-[#0f0f17] rounded-xl p-6">
             <?php if (!empty($message)): ?>
                 <div class="bg-green-600 text-white p-3 rounded mb-4">
-                    <?php echo htmlspecialchars($message); ?>
+                    <?php echo e($message); ?>
                 </div>
             <?php endif; ?>
             <form method="post" class="space-y-6">

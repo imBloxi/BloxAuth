@@ -1,44 +1,8 @@
 <?php
-session_start();
-require '../includes/db.php';
+require_once '../includes/config.php';
+ensure_admin();
 
-// Function to check if the user is logged in
-function is_logged_in() {
-    return isset($_SESSION['user_id']);
-}
-
-// Function to check if the user is a staff member
-function is_staff($pdo) {
-    if (!is_logged_in()) {
-        return false;
-    }
-    $stmt = $pdo->prepare('SELECT is_staff FROM users WHERE id = ?');
-    $stmt->execute([$_SESSION['user_id']]);
-    $user = $stmt->fetch();
-    return $user && $user['is_staff'];
-}
-
-// Check if the user is logged in and is a staff member
-if (!is_staff($pdo)) {
-    header('Location: ../auth/login.php');
-    exit;
-}
-
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-try {
-    // Fetch all applications
-    $stmt = $pdo->prepare('SELECT * FROM applications');
-    $stmt->execute();
-    $applications = $stmt->fetchAll();
-} catch (PDOException $e) {
-    echo 'Database error: ' . $e->getMessage();
-} catch (Exception $e) {
-    echo 'General error: ' . $e->getMessage();
-}
+$applications = $pdo->query('SELECT * FROM applications ORDER BY created_at')->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -75,12 +39,12 @@ try {
                 <?php if ($applications): ?>
                     <?php foreach ($applications as $application): ?>
                         <div class="mb-4 p-4 bg-gray-800 rounded-lg">
-                            <h3 class="text-xl font-bold"><?php echo htmlspecialchars($application['username']); ?></h3>
-                            <p><strong>Email:</strong> <?php echo htmlspecialchars($application['email']); ?></p>
+                            <h3 class="text-xl font-bold"><?php echo e($application['username']); ?></h3>
+                            <p><strong>Email:</strong> <?php echo e($application['email']); ?></p>
                             <p><strong>Application:</strong></p>
-                            <p><?php echo nl2br(htmlspecialchars($application['application_text'])); ?></p>
+                            <p><?php echo nl2br(e($application['application_text'])); ?></p>
                             <form method="post" action="process_application.php">
-                                <input type="hidden" name="username" value="<?php echo htmlspecialchars($application['username']); ?>">
+                                <input type="hidden" name="username" value="<?php echo e($application['username']); ?>">
                                 <button type="submit" name="action" value="accept" class="btn-primary w-full py-2 mt-2 text-base font-medium text-white bg-green-700 rounded-lg hover:bg-green-800 transition duration-200">Accept</button>
                                 <button type="submit" name="action" value="reject" class="btn-primary w-full py-2 mt-2 text-base font-medium text-white bg-red-700 rounded-lg hover:bg-red-800 transition duration-200">Reject</button>
                             </form>

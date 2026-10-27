@@ -1,42 +1,47 @@
 <?php
-session_start();
-require '../includes/db.php';
-require '../includes/functions.php';
-
+// Link a Roblox account by username. The name is checked against Roblox, but
+// ownership is not proven, so these links stay unverified (see auth/link_roblox.php).
+require_once '../includes/config.php';
 redirect_if_not_logged_in();
 
 $user_id = $_SESSION['user_id'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $roblox_username = $_POST['roblox_username'];
-
-    // Perform a basic validation
-    if (empty($roblox_username)) {
-        $_SESSION['message'] = 'Roblox username cannot be empty.';
-        header('Location: link_roblox.php');
-        exit;
-    }
-
-    // Call Roblox API to verify the username (Replace with actual API logic)
-    $verified = verify_roblox_username($roblox_username);
-
-    if ($verified) {
-        // Store the Roblox username in the database with the current timestamp
-        $stmt = $pdo->prepare("INSERT INTO roblox_accounts (id, roblox_username, linked_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE roblox_username = VALUES(roblox_username), linked_at = VALUES(linked_at)");
-        $stmt->execute([$user_id, $roblox_username, date('Y-m-d H:i:s')]);
-
-        $_SESSION['message'] = 'Roblox account linked successfully!';
-        header('Location: ../billing/index.php');
-        exit;
-    } else {
-        $_SESSION['message'] = 'Failed to verify Roblox username.';
-    }
+// Look up a Roblox user by username. Returns ['id', 'name'] or null.
+function lookup_roblox_user($username) {
+    $ch = curl_init('https://users.roblox.com/v1/usernames/users');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+        CURLOPT_POSTFIELDS => json_encode(['usernames' => [$username], 'excludeBannedUsers' => true]),
+    ]);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $data = json_decode((string) $response, true);
+    return $data['data'][0] ?? null;
 }
 
-function verify_roblox_username($username) {
-    // Implement actual Roblox username verification logic here
-    // For now, we will assume the verification is always successful
-    return true;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $roblox_username = trim($_POST['roblox_username'] ?? '');
+
+    if ($roblox_username === '') {
+        $_SESSION['message'] = 'Roblox username cannot be empty.';
+        redirect('/billing/link_roblox.php');
+    }
+
+    $roblox_user = lookup_roblox_user($roblox_username);
+    if (!$roblox_user) {
+        $_SESSION['message'] = 'Could not find that Roblox user.';
+        redirect('/billing/link_roblox.php');
+    }
+
+    $pdo->prepare("INSERT INTO roblox_accounts (user_id, roblox_username, roblox_user_id, verified, linked_at) VALUES (?, ?, ?, 0, NOW())
+                   ON DUPLICATE KEY UPDATE roblox_username = VALUES(roblox_username), roblox_user_id = VALUES(roblox_user_id), verified = 0, linked_at = NOW()")
+        ->execute([$user_id, $roblox_user['name'], $roblox_user['id']]);
+
+    $_SESSION['message'] = 'Roblox account linked. Use "Link with Roblox" to verify it.';
+    redirect('/billing/index.php');
 }
 ?>
 
@@ -60,7 +65,7 @@ function verify_roblox_username($username) {
             <div class="max-w-md mx-auto bg-[#0f0f17] rounded-xl p-6">
                 <?php if (isset($_SESSION['message'])): ?>
                     <div class="bg-red-600 text-white p-3 rounded mb-4">
-                        <?php echo htmlspecialchars($_SESSION['message']); ?>
+                        <?php echo e($_SESSION['message']); ?>
                         <?php unset($_SESSION['message']); ?>
                     </div>
                 <?php endif; ?>
@@ -68,8 +73,6 @@ function verify_roblox_username($username) {
                     <div>
                         <label for="roblox_username" class="block mb-2 text-sm font-medium text-white">Roblox Username:</label>
                         <input type="text" name="roblox_username" id="roblox_username" required class="form-control block w-full p-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white">
-                        <label for="user_id" class="block mb-2 text-sm font-medium text-white">Roblox user_id:</label>
-                        <input type="text" name="id" id="id" required class="form-control block w-full p-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white">
                     </div>
                     <button type="submit" class="btn-primary w-full py-3 text-base font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 transition duration-200">Link Account</button>
                 </form>

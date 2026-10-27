@@ -1,36 +1,27 @@
 <?php
-require '../includes/db.php';
+// Check that a license key exists and belongs to the API key's owner.
+// Auth: Authorization header (raw key or "Bearer <key>") or X-API-Key. JSON body: {license_key}
+require_once '../includes/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => 'Method not allowed']);
-    exit();
+    json_response(['error' => 'Method not allowed'], 405);
 }
 
-$headers = getallheaders();
-$apiKey = $headers['Authorization'] ?? '';
-
-$stmt = $pdo->prepare('SELECT user_id FROM api_keys WHERE api_key = ?');
-$stmt->execute([$apiKey]);
-$user = $stmt->fetch();
-
-if (!$user) {
-    http_response_code(401);
-    echo json_encode(['error' => 'Unauthorized']);
-    exit();
+$user_id = validate_api_key(get_request_api_key());
+if (!$user_id) {
+    json_response(['error' => 'Unauthorized'], 401);
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
-$licenseKey = $data['license_key'] ?? '';
-
-$stmt = $pdo->prepare('SELECT * FROM licenses_new WHERE license_key = ? AND user_id = ?');
-$stmt->execute([$licenseKey, $user['user_id']]);
+$data = read_json_body() ?? [];
+$stmt = $pdo->prepare('SELECT * FROM licenses_new WHERE `key` = ? AND user_id = ?');
+$stmt->execute([(string) ($data['license_key'] ?? ''), $user_id]);
 $license = $stmt->fetch();
 
-if ($license) {
-    echo json_encode(['status' => 'success', 'message' => 'License is valid']);
-} else {
-    http_response_code(404);
-    echo json_encode(['status' => 'error', 'message' => 'License not found']);
+if (!$license) {
+    json_response(['status' => 'error', 'message' => 'License not found'], 404);
 }
-?>
+$status = license_status($license);
+json_response([
+    'status' => $status === 'Active' ? 'success' : 'error',
+    'message' => $status === 'Active' ? 'License is valid' : "License is $status",
+]);

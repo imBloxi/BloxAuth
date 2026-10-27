@@ -1,62 +1,54 @@
 <?php
-session_start();
-require '../includes/db.php';
-require '../includes/functions.php';
-
+require_once '../includes/config.php';
 redirect_if_not_logged_in();
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch user info
-$stmt = $pdo->prepare("SELECT credits, subscription_tier, subscription_end_date, trial_end_date, sellix_api_key, sellix_store_id FROM users WHERE id = ?");
+$stmt = $pdo->prepare("SELECT credits, subscription_tier, subscription_end_date, trial_end_date, sellix_api_key, sellix_store_id, gamepass_claimed FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user_info = $stmt->fetch();
 
-// Check if user is eligible for a free trial
+$stmt = $pdo->prepare("SELECT roblox_username, verified FROM roblox_accounts WHERE user_id = ?");
+$stmt->execute([$user_id]);
+$roblox_account = $stmt->fetch();
+
 $trial_eligible = !$user_info['trial_end_date'];
 
-// Fetch subscription tiers
-$stmt = $pdo->prepare("SELECT * FROM subscription_tiers ORDER BY price ASC");
-$stmt->execute();
-$subscription_tiers = $stmt->fetchAll();
+$subscription_tiers = $pdo->query("SELECT * FROM subscription_tiers ORDER BY price ASC")->fetchAll();
 
-// Fetch Sellix products
-$sellix_products = fetch_sellix_products($user_info['sellix_api_key'], $user_info['sellix_store_id']);
-
-// Handle subscription purchase or start free trial
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['start_trial'])) {
-        // Redirect to Sellix free trial product
-        header('Location: https://your-sellix-store.com/product/free-trial');
-        exit();
-    } elseif (isset($_POST['subscribe'])) {
-        // Handle subscription logic here
-    }
-}
-
-// Fetch credit usage data
-$credit_usage = fetch_credit_usage($pdo, $user_id);
-
-// Fetch feature usage data
-$feature_usage = fetch_feature_usage($pdo, $user_id);
-
-// Function to fetch Sellix products
+// Products from the Sellix store configured in Settings.
 function fetch_sellix_products($api_key, $store_id) {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://dev.sellix.io/v1/products");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $api_key",
-        "X-Sellix-Merchant: $store_id"
+    if (!$api_key) {
+        return [];
+    }
+    $ch = curl_init('https://dev.sellix.io/v1/products');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_HTTPHEADER => array_filter([
+            "Authorization: Bearer $api_key",
+            $store_id ? "X-Sellix-Merchant: $store_id" : null,
+        ]),
     ]);
-
     $response = curl_exec($ch);
     curl_close($ch);
-
-    $data = json_decode($response, true);
+    $data = json_decode((string) $response, true);
     return $data['data']['products'] ?? [];
 }
+$sellix_products = fetch_sellix_products($user_info['sellix_api_key'], $user_info['sellix_store_id']);
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_trial'])) {
+    if (SELLIX_TRIAL_URL !== '') {
+        header('Location: ' . SELLIX_TRIAL_URL);
+        exit();
+    }
+    $_SESSION['message'] = 'Free trials are not available right now.';
+    redirect('/billing/index.php');
+}
+
+$credit_usage = fetch_credit_usage($pdo, $user_id);
+$feature_usage = fetch_feature_usage($pdo, $user_id);
+$message = flash('message');
 ?>
 
 <!DOCTYPE html>
@@ -80,6 +72,31 @@ function fetch_sellix_products($api_key, $store_id) {
         </header>
 
         <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <?php if ($message): ?>
+                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6" role="alert"><?= e($message) ?></div>
+            <?php endif; ?>
+
+            <!-- Roblox account and game pass credits -->
+            <div class="bg-white overflow-hidden shadow rounded-lg mb-6">
+                <div class="px-4 py-5 sm:p-6">
+                    <h2 class="text-lg font-medium text-gray-900 mb-2">Roblox Account</h2>
+                    <?php if ($roblox_account): ?>
+                        <p class="text-sm text-gray-700">Linked: <strong><?= e($roblox_account['roblox_username']) ?></strong><?= $roblox_account['verified'] ? ' (verified)' : ' (not verified)' ?></p>
+                    <?php else: ?>
+                        <p class="text-sm text-gray-500">No Roblox account linked.</p>
+                    <?php endif; ?>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <a href="<?= e(url('/auth/link_roblox.php')) ?>" class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 text-sm">Link with Roblox</a>
+                        <a href="<?= e(url('/billing/link_roblox.php')) ?>" class="bg-gray-200 text-gray-800 py-2 px-4 rounded hover:bg-gray-300 text-sm">Enter username manually</a>
+                        <?php if (!$user_info['gamepass_claimed']): ?>
+                        <form method="post" action="<?= e(url('/billing/payment.php')) ?>">
+                            <button type="submit" name="purchase_gamepass" class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 text-sm">Claim game pass credits</button>
+                        </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
             <!-- Current Plan -->
             <div class="bg-white overflow-hidden shadow rounded-lg mb-6">
                 <div class="px-4 py-5 sm:p-6">
@@ -87,17 +104,17 @@ function fetch_sellix_products($api_key, $store_id) {
                     <p class="text-sm text-gray-500">Your subscription and credit information</p>
                     <div class="mt-4 flex justify-between items-center">
                         <div>
-                            <p class="text-2xl font-bold text-indigo-600"><?= htmlspecialchars($user_info['subscription_tier']) ?></p>
+                            <p class="text-2xl font-bold text-indigo-600"><?= e($user_info['subscription_tier'] ?: 'Free') ?></p>
                             <p class="text-sm text-gray-500">Expires: <?= $user_info['subscription_end_date'] ? date('Y-m-d', strtotime($user_info['subscription_end_date'])) : 'N/A' ?></p>
                         </div>
                         <div>
-                            <p class="text-3xl font-bold text-green-600"><?= $user_info['credits'] ?></p>
+                            <p class="text-3xl font-bold text-green-600"><?= (int) $user_info['credits'] ?></p>
                             <p class="text-sm text-gray-500">Credits</p>
                         </div>
                     </div>
                     <div class="mt-4">
                         <div class="bg-gray-200 rounded-full h-2">
-                            <div class="bg-indigo-600 rounded-full h-2" style="width: <?= ($user_info['credits'] / 1000) * 100 ?>%;"></div>
+                            <div class="bg-indigo-600 rounded-full h-2" style="width: <?= min(100, max(0, ($user_info['credits'] / 1000) * 100)) ?>%;"></div>
                         </div>
                         <div class="flex justify-between text-sm text-gray-500 mt-1">
                             <span>0 credits</span>
@@ -141,9 +158,9 @@ function fetch_sellix_products($api_key, $store_id) {
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                         <?php foreach ($subscription_tiers as $tier): ?>
                             <div class="border rounded-lg p-4">
-                                <h3 class="text-xl font-semibold"><?= htmlspecialchars($tier['name']) ?></h3>
+                                <h3 class="text-xl font-semibold"><?= e($tier['name']) ?></h3>
                                 <p class="text-2xl font-bold text-indigo-600 mt-2">$<?= number_format($tier['price'], 2) ?><span class="text-sm text-gray-500">/month</span></p>
-                                <p class="text-sm text-gray-500 mt-2"><?= htmlspecialchars($tier['description']) ?></p>
+                                <p class="text-sm text-gray-500 mt-2"><?= e($tier['description']) ?></p>
                                 <ul class="mt-4 space-y-2">
                                     <?php
                                     $benefits = explode(',', $tier['benefits']);
@@ -151,12 +168,12 @@ function fetch_sellix_products($api_key, $store_id) {
                                     ?>
                                         <li class="flex items-center">
                                             <svg class="h-5 w-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                            <?= htmlspecialchars(trim($benefit)) ?>
+                                            <?= e(trim($benefit)) ?>
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
                                 <form method="post" class="mt-6">
-                                    <input type="hidden" name="tier_id" value="<?= $tier['id'] ?>">
+                                    <input type="hidden" name="tier_id" value="<?= (int) $tier['id'] ?>">
                                     <button type="submit" name="subscribe" class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition duration-200">
                                         <?= $user_info['subscription_tier'] === $tier['name'] ? 'Current Plan' : 'Subscribe' ?>
                                     </button>
@@ -177,13 +194,13 @@ function fetch_sellix_products($api_key, $store_id) {
                         <?php foreach ($sellix_products as $product): ?>
                             <div class="border rounded-lg p-4 flex flex-col justify-between">
                                 <div>
-                                    <h3 class="text-lg font-semibold"><?= htmlspecialchars($product['title']) ?></h3>
-                                    <p class="text-2xl font-bold text-indigo-600">$<?= $product['price'] ?></p>
-                                    <p class="text-sm text-gray-500 mt-2"><?= htmlspecialchars($product['description']) ?></p>
+                                    <h3 class="text-lg font-semibold"><?= e($product['title']) ?></h3>
+                                    <p class="text-2xl font-bold text-indigo-600">$<?= e($product['price'] ?? '') ?></p>
+                                    <p class="text-sm text-gray-500 mt-2"><?= e($product['description'] ?? '') ?></p>
                                 </div>
                                 <button 
                                     class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition duration-200 mt-4"
-                                    data-sellix-product="<?= $product['uniqid'] ?>"
+                                    data-sellix-product="<?= e($product['uniqid'] ?? '') ?>"
                                     type="submit"
                                 >
                                     Buy Now
@@ -331,8 +348,8 @@ BloxAuth reserves the right to modify or update these Terms at any time. Any suc
         });
 
         // Initialize Sellix Embed
-        Sellix.init({
-            merchant: '<?= $user_info['sellix_store_id'] ?>'
+        if (window.Sellix) Sellix.init({
+            merchant: <?= json_encode((string) $user_info['sellix_store_id']) ?>
         });
     </script>
 </body>

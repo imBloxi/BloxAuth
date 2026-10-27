@@ -1,5 +1,13 @@
 {
+    "name": "imbloxi/bloxauth",
+    "description": "Open-source license management for Roblox game developers.",
+    "type": "project",
+    "license": "Apache-2.0",
     "require": {
-        "authorizenet/authorizenet": "^2.0"
+        "php": ">=8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*"
     }
 }

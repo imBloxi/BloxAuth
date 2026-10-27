@@ -1,12 +1,9 @@
 <?php
-session_start();
-require '../includes/functions.php';
-
+require_once '../includes/config.php';
 redirect_if_not_logged_in();
 
 if (!isset($_SESSION['qrCodeUrl'])) {
-    header('Location: settings.php');
-    exit();
+    redirect('/app/settings.php');
 }
 ?>
 
@@ -22,11 +19,11 @@ if (!isset($_SESSION['qrCodeUrl'])) {
     <h1>Verify Two-Factor Authentication</h1>
     <?php
     if (isset($_SESSION['message'])) {
-        echo "<p>" . $_SESSION['message'] . "</p>";
+        echo "<p>" . e($_SESSION['message']) . "</p>";
         unset($_SESSION['message']);
     }
     ?>
-    <img src="<?php echo $_SESSION['qrCodeUrl']; ?>" alt="QR Code">
+    <img src="<?php echo e($_SESSION['qrCodeUrl']); ?>" alt="QR Code">
     <form action="verify_2fa.php" method="post">
         <label for="token">Enter the code from your 2FA app:</label>
         <input type="text" name="token" id="token" required>

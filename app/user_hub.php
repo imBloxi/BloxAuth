@@ -1,32 +1,25 @@
 <?php
-session_start();
-require '../includes/db.php';
-require '../includes/functions.php';
-
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../auth/login.php');
-    exit();
-}
+require_once '../includes/config.php';
+redirect_if_not_logged_in();
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch user information
-$user_info = getUserInfo($pdo, $user_id);
-
-// Fetch user scripts with versions
-$user_scripts = getUserScriptsWithVersions($pdo, $user_id);
-
-// Handle form submissions
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['create_script'])) {
-        createNewScript($pdo, $user_id, $_POST['script_name'], $_POST['script_content']);
-    } elseif (isset($_POST['create_version'])) {
-        createNewScriptVersion($pdo, $user_id, $_POST['script_id'], $_POST['version_name'], $_POST['version_content']);
-    } elseif (isset($_POST['update_active_version'])) {
-        updateActiveScriptVersion($pdo, $user_id, $_POST['script_id'], $_POST['version_id']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['update_active_version'])) {
+        // Called from the version dropdown with fetch(); answers in JSON.
+        $ok = updateActiveScriptVersion($pdo, $user_id, $_POST['script_id'] ?? 0, $_POST['version_id'] ?? 0);
+        json_response(['success' => $ok]);
     }
+    if (isset($_POST['create_script']) && trim($_POST['script_name'] ?? '') !== '') {
+        createNewScript($pdo, $user_id, trim($_POST['script_name']), $_POST['script_content'] ?? '');
+    } elseif (isset($_POST['create_version']) && trim($_POST['version_name'] ?? '') !== '') {
+        createNewScriptVersion($pdo, $user_id, $_POST['script_id'] ?? 0, trim($_POST['version_name']), $_POST['version_content'] ?? '');
+    }
+    redirect('/app/user_hub.php');
 }
 
+$user_info = getUserInfo($pdo, $user_id);
+$user_scripts = getUserScriptsWithVersions($pdo, $user_id);
 ?>
 
 <!DOCTYPE html>
@@ -59,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php foreach ($user_scripts as $script): ?>
                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-xl font-semibold mb-4"><?= htmlspecialchars($script['name']) ?></h2>
-                    <p class="text-gray-600 mb-4">Active Version: <?= htmlspecialchars($script['active_version_name']) ?></p>
+                    <h2 class="text-xl font-semibold mb-4"><?= e($script['name']) ?></h2>
+                    <p class="text-gray-600 mb-4">Active Version: <?= e($script['active_version_name'] ?? 'None') ?></p>
                     
                     <!-- Version Dropdown -->
                     <div class="mb-4">
@@ -68,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <select id="version_<?= $script['id'] ?>" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" onchange="updateActiveVersion(<?= $script['id'] ?>, this.value)">
                             <?php foreach ($script['versions'] as $version): ?>
                                 <option value="<?= $version['id'] ?>" <?= $version['id'] == $script['active_version_id'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($version['name']) ?>
+                                    <?= e($version['name']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -128,12 +121,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <script>
         function updateActiveVersion(scriptId, versionId) {
-            fetch('update_active_version.php', {
+            fetch('user_hub.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `script_id=${scriptId}&version_id=${versionId}`
+                body: `update_active_version=1&script_id=${encodeURIComponent(scriptId)}&version_id=${encodeURIComponent(versionId)}`
             })
             .then(response => response.json())
             .then(data => {
